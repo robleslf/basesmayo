@@ -121,3 +121,71 @@ HAVING COUNT(DISTINCT an.especie) > 1;
 
 -- 96  Contar cuántos empleados están a cargo de cada administrador
 
+-- ANIMALES TRASLADADOS EN EL ÚLTIMO MES
+SELECT * FROM ANIMAL;
+SELECT * FROM VIVE;
+
+
+-- Trasladamos al animal 8 (Joe, la liebre de mar -Aplysia punctata-) de su zona actual a una nueva zona con la fecha de hoy:
+START TRANSACTION;
+
+UPDATE VIVE 
+SET fecha_salida = NOW()
+WHERE codigo_animal = 8
+AND codigo_zona = 4
+AND fecha_entrada = '2010-03-18 16:25:56';
+
+INSERT INTO VIVE
+VALUES
+(8,1,NOW(),NULL);
+
+COMMIT;
+
+-- Ingresamos un animal nuevo (Miko, el ocelote -Leopardus pardalis-) a una zona del zoo por primera vez (No es un traslado de una zona a otra)
+START TRANSACTION;
+
+INSERT INTO ANIMAL (especie, nombre, genero, fecha_de_ingreso, fecha_de_nacimiento)
+VALUES 
+('Leopardus pardalis','Miko','Macho',NOW(),(DATE_SUB(NOW(), INTERVAL 30 MINUTE)));
+
+INSERT INTO VIVE
+VALUES 
+((SELECT MAX(codigo_animal) FROM ANIMAL),5,NOW(),NULL);
+
+COMMIT;
+
+
+
+
+
+-- Si queremos todos los animales que han sido ingresados en una zona nueva en el último mes:
+SELECT an.codigo_animal AS 'Código animal',
+		an.nombre AS 'Nombre animal',
+        an.especia AS 'Especie'
+FROM ANIMAL AS an
+WHERE codigo_animal = ANY (SELECT DISTINCT vi.codigo_animal
+							FROM VIVE AS vi
+                            WHERE TIMESTAMPDIFF(MONTH, vi.fecha_entrada, CURRENT_DATE()) < 1
+                            );
+-- Y aquí nos saldrían tanto Joe, la liebre de mar, que ha sido trasladado de una zona a otra, como Miko, el ocelote, que ha ingresado a una zona del zoo por primera vez sin ser trasladado de otra
+                            
+               
+-- Si queremos todos los animales que han sido trasladados de una zona a otra en el último mes:
+SELECT an.codigo_animal AS 'Código animal',
+		an.nombre AS 'Nombre animal',
+        an.especie AS 'Especie'
+FROM ANIMAL AS an
+WHERE codigo_animal = ANY (SELECT DISTINCT vi.codigo_animal
+							FROM VIVE AS vi
+                            WHERE TIMESTAMPDIFF(MONTH, vi.fecha_entrada, CURRENT_DATE()) < 1
+                            )
+AND codigo_animal = ANY (SELECT DISTINCT vi2.codigo_animal
+							FROM VIVE AS vi2
+                            WHERE TIMESTAMPDIFF(MONTH, vi2.fecha_salida, CURRENT_DATE()) < 1);
+-- Solo nos debería salir Joe, la liebre de mar, que ha sido el único en ser trasladado de una zona a otra en el último mes.
+
+
+                            
+                            
+
+
