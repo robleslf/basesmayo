@@ -185,6 +185,57 @@ AND codigo_animal = ANY (SELECT DISTINCT vi2.codigo_animal
 -- Solo nos debería salir Joe, la liebre de mar, que ha sido el único en ser trasladado de una zona a otra en el último mes.
 
 
+-- 110 ¿Está la leona Margarita siguiendo algún tratamiento?
+-- SELECT * FROM ANIMAL;
+-- SELECT * FROM TRATAMIENTO;
+-- SELECT * FROM DIAGNOSTICA;
+
+-- Creamos un nuevo tratamiento para Margarita que terminará dentro de un mes (antes debe ser diagnosticada).
+
+START TRANSACTION;
+
+INSERT INTO DIAGNOSTICA
+VALUES
+((SELECT codigo_animal FROM ANIMAL WHERE nombre LIKE 'Margarita' AND especie LIKE 'Panthera Leo'),'Insomnio',NOW(),3);
+
+INSERT INTO TRATAMIENTO (nombre_afeccion,medicamento,dosis,frecuencia,observaciones,fecha_inicio,fecha_fin,codigo_animal,cod_empleado_veterinario)
+VALUES
+('Insomnio','Focusín',140,8,'Que coma algo antes',NOW(),(DATE_ADD(NOW(), INTERVAL 1 MONTH)), (SELECT codigo_animal FROM ANIMAL WHERE nombre LIKE 'Margarita' AND especie LIKE 'Panthera Leo'),3);
+
+COMMIT;
+
+
+-- Y ahora buscamos si Margarita está siguiendo actualmente algún tratamiento:
+
+-- Si queremos ver qué tratamientos sigue actualmente:
+SELECT *
+FROM TRATAMIENTO AS tr
+JOIN ANIMAL AS an ON (an.codigo_animal = tr.codigo_animal)
+WHERE an.nombre LIKE 'Margarita'
+AND an.especie LIKE 'Panthera leo'
+AND tr.fecha_fin > NOW();
+
+-- Si solo queremos saber si sigue algún tratamiento o no:
+SELECT IF(COUNT(*) > 0, 'SÍ', 'NO') AS '¿Está tratándose?'
+FROM TRATAMIENTO AS tr
+JOIN ANIMAL AS an ON (an.codigo_animal = tr.codigo_animal)
+WHERE an.nombre LIKE 'Margarita'
+AND an.especie LIKE 'Panthera leo'
+AND tr.fecha_fin > CURRENT_DATE();
+
+SELECT IF(COUNT(*) > 0, 'SÍ', 'NO') AS '¿Sigue tratamiento?'
+FROM TRATAMIENTO AS tr
+JOIN ANIMAL AS an ON (an.codigo_animal = tr.codigo_animal)
+WHERE an.nombre LIKE 'Xena'
+AND an.especie LIKE 'Canis lupus signatus'
+AND tr.fecha_fin > CURRENT_DATE();
+
+
+                            
+                            
+
+
+
                             
                             
 
