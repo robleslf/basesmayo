@@ -120,6 +120,19 @@ HAVING COUNT(DISTINCT an.especie) > 1;
 
 
 -- 96  Contar cuántos empleados están a cargo de cada administrador
+SELECT * FROM EMPLEADO;
+SELECT * FROM VETERINARIO;
+
+SELECT ad.codigo_empleado AS 'Código administrador',
+		CONCAT(ad.nombre," ",ad.apellido_1," ",IFNULL(ad.apellido_2, '')) AS 'Nombre Administrador',
+        COUNT(em.codigo_empleado) AS 'Nº de veterinarios subordinados'
+FROM EMPLEADO AS em
+JOIN EMPLEADO AS ad ON (em.codigo_empleado_administrador = ad.codigo_empleado)
+WHERE em.codigo_empleado = ANY (SELECT ve.codigo_empleado
+							FROM VETERINARIO AS ve)
+AND em.codigo_empleado_administrador IS NOT NULL  
+GROUP BY em.codigo_empleado_administrador;
+
 
 -- ANIMALES TRASLADADOS EN EL ÚLTIMO MES
 SELECT * FROM ANIMAL;
