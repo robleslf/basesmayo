@@ -190,5 +190,5 @@
 |181 |Borrar alimentos innecesarios |Borrar los alimentos que no están presentes en nninguna dieta |COMPONE, ALIMENTO |NO
 |182 |Miembro en la primera visita |Hacer miembro a un cliente que visita el zoológico por primera vez, y es por tanto registrado como cliente en CLIENTE, su entrada en ENTRADA,  y se le abre un registro en la tabla MEMBRESIA |MEMBRESIA, CLIENTE, ENTRADA |SÍ
 |  183     |Entrada cliente habitual                |Añadir una nueva entrada        | ENTRADA                  |NO
-|  183     |Entrada cliente miembro                |Añadir una nueva entrada aplicando el porcentaje de la membresia en el precio        | ENTRADA                  |NO
+|  184     |Entrada cliente miembro                |Añadir una nueva entrada aplicando el porcentaje de la membresia en el precio        | ENTRADA                  |NO
 |===
