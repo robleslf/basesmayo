@@ -20,9 +20,11 @@ INSERT INTO TELEFONO_EMPLEADO
 VALUES 
 	((SELECT MAX(codigo_empleado) FROM EMPLEADO), '987252526');
 
-INSERT INTO FAMILIAR (nombre,apellido_1,apellido_2,DNI)
-VALUES
-	('Víctor','de los Ríos','Campos','55566623J');
+INSERT INTO FAMILIAR
+SET nombre = 'Víctor',
+	apellido_1 = 'de los Ríos',
+    apellido_2 = 'Campos',
+    DNI = '55566623J';
 
 INSERT INTO TIENE
 VALUES
@@ -82,9 +84,17 @@ SET fecha_fin = NOW(),
 	observaciones = 'Diagnóstico érroneo, se puso fin a este tratamiento para dar inicio a uno nuevo'
 WHERE cod_tratamiento = 1;
 
-INSERT INTO TRATAMIENTO (nombre_afeccion, medicamento, dosis, frecuencia, observaciones, fecha_inicio, fecha_fin, codigo_animal, cod_empleado_veterinario)
-VALUES 
-	('Fiebre aftosa', 'Aftosil', 150, 4, 'Anteriormente se le había diagnosticado con insomnio erróneamente', NOW(), DATE_ADD(NOW(), INTERVAL 1 MONTH), 1, 3);
+
+INSERT INTO TRATAMIENTO
+SET nombre_afeccion = 'Fiebre aftosa',
+	medicamento = 'Aftosil',
+    dosis = 150,
+    frecuencia = 4,
+    observaciones = 'Anteriormente se le había diagnosticado con insomnio erróneamente',
+    fecha_inicio = NOW(),
+    fecha_fin = DATE_ADD(NOW(), INTERVAL 1 MONTH),
+    codigo_animal = 1,
+    cod_empleado_veterinario = 3;
 
 COMMIT;
 
@@ -131,7 +141,7 @@ GROUP BY zo.tipo, an.especie;
 -- SELECT * FROM VIVE;
 -- SELECT * FROM ZONA;
 
--- Para comprobar que funciona la consulta, vamos a añadir a una misma zona tres especies diferentes:
+-- Para comprobar que funciona la consulta, vamos a añadir a una misma zona (zona 6) tres especies diferentes:
 START TRANSACTION;
 
 INSERT INTO ANIMAL (especie,nombre,genero,fecha_de_ingreso)
@@ -184,7 +194,7 @@ ORDER BY COUNT(em.codigo_empleado) DESC;
 -- SELECT * FROM ANIMAL;
 -- SELECT * FROM VIVE;
 
--- Trasladamos al animal 8 (Joe, la liebre de mar -Aplysia punctata-) de su zona actual a una nueva zona con la fecha de hoy (Operación 150):
+-- Trasladamos al animal 8 (Joe, la liebre de mar -Aplysia punctata-) de su zona actual a una nueva zona con la fecha de hoy (Operación 150 -Trasladar animal-):
 START TRANSACTION;
 
 UPDATE VIVE 
@@ -222,7 +232,7 @@ WHERE codigo_animal = ANY (SELECT DISTINCT vi.codigo_animal
 							FROM VIVE AS vi
                             WHERE TIMESTAMPDIFF(MONTH, vi.fecha_entrada, CURRENT_DATE()) < 1
                             );
--- Y aquí nos saldrían tanto Joe, la liebre de mar, que ha sido trasladado de una zona a otra, como Miko, el ocelote (y si se han ejecutado las operaciones de los ejercicios anteriores, saldrán también los animales que habíamos ingresado al zoo).
+-- Y aquí nos saldrían tanto Joe, la liebre de mar, que ha sido trasladado de una zona a otra, como Miko, el ocelote (y si se han ejecutado las operaciones de los ejercicios anteriores, saldrán también los animales que habíamos ingresado para los otros ejemplos).
                             
 -- Pero lo que queremos son solo los animales que han sido trasladados de una zona a otra en el último mes (Solamente Joe, la liebre de mar):
 SELECT an.codigo_animal AS 'Código animal',
@@ -378,6 +388,7 @@ OR vi.fecha_salida IS NULL);
 -- SELECT * FROM TELEFONO_CLIENTE;
 -- SELECT * FROM TELEFONO_FAMILIAR;
 
+
 ((SELECT tel.telefono AS 'Teléfono',
 		CONCAT(em.nombre," ",em.apellido_1," ",IFNULL(em.apellido_2,"")) AS 'Nombre',
         'Veterinario/a' AS '¿Quién es?'
@@ -420,9 +431,11 @@ WHERE em.codigo_empleado = ANY (SELECT man.codigo_empleado
 UNION
 (SELECT telf.telefono,
 		CONCAT(fa.nombre," ",fa.apellido_1," ",IFNULL(fa.apellido_2,"")),
-        'Familiar'
+        CONCAT('Familiar de ',em.nombre,' ',em.apellido_1,' ',IFNULL(em.apellido_2,''))
 FROM FAMILIAR AS fa
-JOIN TELEFONO_FAMILIAR AS telf ON (fa.cod_familiar = telf.cod_familiar))
+JOIN TELEFONO_FAMILIAR AS telf ON (fa.cod_familiar = telf.cod_familiar)
+JOIN TIENE AS ti ON (ti.cod_familiar = fa.cod_familiar)
+JOIN EMPLEADO AS em ON (em.codigo_empleado = ti.codigo_empleado))
 UNION
 (SELECT telc.telefono,
 		CONCAT(cl.nombre," ",cl.apellido_1," ",IFNULL(cl.apellido_2,"")),
@@ -431,10 +444,22 @@ FROM CLIENTE AS cl
 JOIN TELEFONO_CLIENTE AS telc ON (cl.cod_cliente = telc.cod_cliente)))
 ORDER BY 2;
 
+/* 
+Con la consulta a la tabla FAMILIAR se está haciendo un JOIN para que en el campo '¿Quién es?' aparezca el nombre del empleado del que es familiar, y esto hace que si hay más de un familiar, como el caso de María Ruano Nicolás y Paula Ruano Nicolás, el número de teléfono y el familiar se dupliquen.
+
+Si no se quieren duplicados se puede cambiar simplemente por esto, aunque solamente saldrá que es familiar sin especificar de quién:
+
+(SELECT telf.telefono,
+		CONCAT(fa.nombre," ",fa.apellido_1," ",IFNULL(fa.apellido_2,"")),
+        'Familiar'
+FROM FAMILIAR AS fa
+JOIN TELEFONO_FAMILIAR AS telf ON (fa.cod_familiar = telf.cod_familiar))
+*/ 
+
 
 
    
-   -- 11) Operación 156 → Ver qué animales siguen una dieta rica en fibra
+-- 11) Operación 156 → Ver qué animales siguen una dieta rica en fibra
    
 -- SELECT * FROM ALIMENTA;
 -- SELECT * FROM TIPO;
@@ -528,9 +553,23 @@ WHERE fecha_de_ingreso > ANY (SELECT MIN(fecha_de_ingreso)
                     WHERE especie LIKE 'Ornithorhynchus anatinus');
                             
                             
+-- 14) Operación 177 → Cantidad de cada alimento consumida cada día
+-- SELECT * FROM ALIMENTO;
+-- SELECT * FROM ALIMENTA;
+-- SELECT * FROM COMPONE;
 
 
-
-                            
+SELECT al.nombre AS 'Alimento',
+		DATE(enta.fecha) AS 'Día',
+		SUM(com.cantidad) AS 'Total de gramos consumidos'
+FROM COMPONE AS com
+JOIN ALIMENTO AS al ON (com.cod_alimento = al.cod_alimento)
+JOIN ALIMENTA AS enta ON (enta.cod_dieta = com.cod_dieta)
+WHERE com.cod_dieta IN (SELECT cod_dieta
+ 					FROM ALIMENTA)
+GROUP BY al.nombre, DATE(enta.fecha);
+                    
+                    
+-- 15) Campaña de vacunación
                             
 
