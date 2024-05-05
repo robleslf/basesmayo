@@ -162,7 +162,7 @@ HAVING COUNT(DISTINCT an.especie) > 1;
 
 
 
--- 6) Operación 96 → Contar cuántos empleados están a cargo de cada administrador:
+-- 6) Operación 165 → Contar cuántos veterinarios están a cargo de cada administrador:
 
 -- SELECT * FROM EMPLEADO;
 -- SELECT * FROM VETERINARIO;
@@ -331,7 +331,7 @@ AND an.especie LIKE 'Troglodytes gorilla'))
 ORDER BY Empleado;
 
 
--- 9) Operación Ver quiénes son los compañeros que conviven con un animal determinado
+-- 9) Operación 154 → Ver quiénes son los compañeros que conviven con un animal determinado
 
 -- SELECT * FROM ANIMAL;
 -- SELECT * FROM ZONA;
@@ -369,9 +369,118 @@ AND (vi.fecha_salida > NOW()
 OR vi.fecha_salida IS NULL);
 
 
-                                                    
+-- 10) Operación 123 → Hacer una lista con todo los números de teléfono registrados en la base de datos y el nombre completo de la persona a la que pertenece cada uno, así como un campo que identifique quién es esa persona:
+
+-- SELECT * FROM CLIENTE;
+-- SELECT * FROM EMPLEADO;
+-- SELECT * FROM FAMILIAR;
+-- SELECT * FROM TELEFONO_EMPLEADO;
+-- SELECT * FROM TELEFONO_CLIENTE;
+-- SELECT * FROM TELEFONO_FAMILIAR;
+
+((SELECT tel.telefono AS 'Teléfono',
+		CONCAT(em.nombre," ",em.apellido_1," ",IFNULL(em.apellido_2,"")) AS 'Nombre',
+        'Veterinario/a' AS '¿Quién es?'
+FROM EMPLEADO AS em
+JOIN TELEFONO_EMPLEADO AS tel ON (em.codigo_empleado = tel.codigo_empleado)
+WHERE em.codigo_empleado = ANY (SELECT vet.codigo_empleado
+								FROM VETERINARIO AS vet))
+UNION
+(SELECT tel.telefono,
+		CONCAT(em.nombre," ",em.apellido_1," ",IFNULL(em.apellido_2,"")),
+        'Administrador/a'
+FROM EMPLEADO AS em
+JOIN TELEFONO_EMPLEADO AS tel ON (em.codigo_empleado = tel.codigo_empleado)
+WHERE em.codigo_empleado = ANY (SELECT ad.codigo_empleado
+								FROM ADMINISTRADOR AS ad))
+UNION
+(SELECT tel.telefono,
+		CONCAT(em.nombre," ",em.apellido_1," ",IFNULL(em.apellido_2,"")),
+        'Cajero/a'
+FROM EMPLEADO AS em
+JOIN TELEFONO_EMPLEADO AS tel ON (em.codigo_empleado = tel.codigo_empleado)
+WHERE em.codigo_empleado = ANY (SELECT caj.codigo_empleado
+								FROM CAJERO AS caj))
+UNION
+(SELECT tel.telefono,
+		CONCAT(em.nombre," ",em.apellido_1," ",IFNULL(em.apellido_2,"")),
+        'Cuidador'
+FROM EMPLEADO AS em
+JOIN TELEFONO_EMPLEADO AS tel ON (em.codigo_empleado = tel.codigo_empleado)
+WHERE em.codigo_empleado = ANY (SELECT cui.codigo_empleado
+								FROM CUIDADOR AS cui))
+UNION
+(SELECT tel.telefono,
+		CONCAT(em.nombre," ",em.apellido_1," ",IFNULL(em.apellido_2,"")),
+        'Empleado/a de mantenimiento'
+FROM EMPLEADO AS em
+JOIN TELEFONO_EMPLEADO AS tel ON (em.codigo_empleado = tel.codigo_empleado)
+WHERE em.codigo_empleado = ANY (SELECT man.codigo_empleado
+								FROM VETERINARIO AS man))
+UNION
+(SELECT telf.telefono,
+		CONCAT(fa.nombre," ",fa.apellido_1," ",IFNULL(fa.apellido_2,"")),
+        'Familiar'
+FROM FAMILIAR AS fa
+JOIN TELEFONO_FAMILIAR AS telf ON (fa.cod_familiar = telf.cod_familiar))
+UNION
+(SELECT telc.telefono,
+		CONCAT(cl.nombre," ",cl.apellido_1," ",IFNULL(cl.apellido_2,"")),
+        'Cliente'
+FROM CLIENTE AS cl
+JOIN TELEFONO_CLIENTE AS telc ON (cl.cod_cliente = telc.cod_cliente)))
+ORDER BY 2;
 
 
+
+   
+   -- 11) Operación 156 → Ver qué animales siguen una dieta rica en fibra
+   
+
+SELECT * FROM ALIMENTA;
+SELECT * FROM TIPO;
+SELECT * FROM ANIMAL;
+
+SELECT codigo_animal AS 'Código animal',
+		nombre AS 'Nombre animal',
+        especie AS 'Especie'
+FROM ANIMAL 
+WHERE codigo_animal IN (SELECT DISTINCT codigo_animal
+						FROM ALIMENTA
+                        WHERE cod_dieta IN (SELECT cod_dieta
+											FROM TIPO
+                                            WHERE tipo LIKE 'Fib'));
+
+
+-- 12)Operación 159 → Ver quién es el animal de una determinada especie que lleva viviendo más tiempo en el zoo
+
+-- SELECT * FROM ANIMAL;
+
+-- Vamos a ingresar siete demonios de tasmania con diferentes fechas de ingreso en el zoo para este ejemplo(Operación 1):
+
+START TRANSACTION;
+
+INSERT INTO ANIMAL (especie,nombre,genero,fecha_de_ingreso,fecha_de_nacimiento)
+VALUES
+	('Sarcophilus harrisii','McManaman', 'Macho','2001-06-03 12:30:00','2001-06-02 12:30:00'),
+    ('Sarcophilus harrisii','Guti','Macho','2008-06-03 12:30:00',NULL),
+    ('Sarcophilus harrisii','Makelele','Macho','2011-06-03 12:30:00',NULL),
+    ('Sarcophilus harrisii','Roberto Carlos','Macho','2014-05-03 12:30:00',NULL),
+    ('Sarcophilus harrisii','Raúl','Macho','2014-06-03 12:30:00',NULL),
+    ('Sarcophilus harrisii','Salgado','Macho','2003-06-03 12:30:00',NULL),
+    ('Sarcophilus harrisii','Zidane','Macho','2001-01-03 12:30:00',NULL);
+    
+INSERT INTO VIVE
+VALUES
+	((SELECT MAX(codigo_animal) - 6 FROM ANIMAL), 3, '2001-06-04 12:30:00', NULL),
+    ((SELECT MAX(codigo_animal) - 5 FROM ANIMAL), 3, '2008-06-04 12:30:00', NULL),
+    ((SELECT MAX(codigo_animal) - 4 FROM ANIMAL), 3, '2011-06-04 12:30:00', NULL),
+    ((SELECT MAX(codigo_animal) - 3 FROM ANIMAL), 3, '2014-05-04 12:30:00', NULL),
+    ((SELECT MAX(codigo_animal) - 2 FROM ANIMAL), 3, '2014-06-04 12:30:00', NULL),
+    ((SELECT MAX(codigo_animal) - 1 FROM ANIMAL), 3, '2003-06-04 12:30:00', NULL),
+    ((SELECT MAX(codigo_animal) FROM ANIMAL), 3, '2001-01-04 12:30:00', NULL);
+    
+COMMIT;
 
                             
                             
