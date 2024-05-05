@@ -1,4 +1,36 @@
 USE NUESTRO_ZOOLOGICO;
+-- SELECT * FROM ADMINISTRADOR;
+-- SELECT * FROM AFECCION;
+-- SELECT * FROM ALIMENTA;
+-- SELECT * FROM ANIMAL;
+-- SELECT * FROM CAJERO;
+-- SELECT * FROM CLIENTE;
+-- SELECT * FROM COMPONE;
+-- SELECT * FROM CUIDA;
+-- SELECT * FROM CUIDADOR;
+-- SELECT * FROM DIAGNOSTICA;
+-- SELECT * FROM DIETA;
+-- SELECT * FROM EMPLEADO;
+-- SELECT * FROM ENTRADA;
+-- SELECT * FROM FAMILIAR;
+-- SELECT * FROM FORMA_CUIDADOR;
+-- SELECT * FROM FORMA_VETERINARIO;
+-- SELECT * FROM MANTENIMIENTO;
+-- SELECT * FROM MANTIENE;
+-- SELECT * FROM MEMBRESIA;
+-- SELECT * FROM ORGANIZA;
+-- SELECT * FROM SINTOMAS;
+-- SELECT * FROM TELEFONO_CLIENTE;
+-- SELECT * FROM TELEFONO_EMPLEADO;
+-- SELECT * FROM TELEFONO_FAMILIAR;
+-- SELECT * FROM TIENE;
+-- SELECT * FROM TIPO;
+-- SELECT * FROM TRATAMIENTO;
+-- SELECT * FROM VACUNA;
+-- SELECT * FROM VETERINARIO;
+-- SELECT * FROM VIVE;
+-- SELECT * FROM ZONA
+
 
 -- Insertar datos en la tabla ANIMAL
 INSERT INTO ANIMAL (especie, nombre, genero, fecha_de_ingreso, fecha_de_nacimiento, fecha_de_fallecimiento) 
@@ -12,6 +44,8 @@ VALUES
 ('Vombatus ursinus', 'Ratchet', 'Macho', '2009-12-13 15:15:10', NULL, NULL),
 ('Aplysia punctata', 'Joe', 'Hermafrodita', '2010-03-18 16:14:25', NULL, NULL);
 
+-- SELECT * FROM ANIMAL;
+
 -- Insertar datos en la tabla ZONA
 INSERT INTO ZONA (superficie, tipo, descripcion) 
 VALUES
@@ -22,6 +56,8 @@ VALUES
 (100.00, 'otra', 'Zona reservada para animales recién nacidos o ingresados, para pasar cuarentena antes de su introducción a una nueva zona'),
 (2750.00, 'árida', 'Zona de llanura con apenas hierba'),
 (3200.00, 'montaña', 'Zona con abundantes árboles y zonas cavernosas; temperatura ambiente');
+
+-- SELECT * FROM ZONA;
 
 -- Insertar datos en la tabla VIVE
 INSERT INTO VIVE 
@@ -35,17 +71,23 @@ VALUES
 (5, 5, '2004-12-13 15:17:26', '2004-12-20 15:15:10'),
 (8, 4, '2010-03-18 16:25:56', NULL);
 
+-- SELECT * FROM VIVE;
+
 -- Insertar datos de los administradores en la tabla EMPLEADO
 INSERT INTO EMPLEADO 
 VALUES
 (1,'Pavel', 'Nedved', NULL, 'Calle Santa Nonia 33', '11111111A', '19999999999', NULL),
 (4,'Joanne', 'Rowling', NULL, 'Travesía de la Candamia 93', '44444444D', '49999999999', NULL);
 
+-- SELECT * FROM EMPLEADO;
+
 -- Insertar datos en la tabla ADMINISTRADOR
 INSERT INTO ADMINISTRADOR 
 VALUES
 (1),
 (4);
+
+-- SELECT * FROM ADMINISTRADOR;
 
 -- Insertar datos en la tabla EMPLEADO
 INSERT INTO EMPLEADO 
@@ -59,11 +101,15 @@ VALUES
 (9,'María Teresa', 'López', 'Vián', 'Calle Antonio Ralea 14', '99999999Y', '87845421225', 4),
 (10,'Francisco', 'Ratzinger', 'Segundo', 'Calle Romareda 99', '78787878F', '87878787878', 1);
 
+-- SELECT * FROM EMPLEADO;
+
 -- Insertar datos en la tabla MANTENIMIENTO
 INSERT INTO MANTENIMIENTO
 VALUES
 (9),
 (10);
+
+-- SELECT * FROM MANTENIMIENTO;
 
 -- Insertar datos en la tabla VETERINARIO
 INSERT INTO VETERINARIO
@@ -71,10 +117,15 @@ VALUES
 (3),
 (6);
 
+-- SELECT * FROM VETERINARIO;
+
 -- Insertar datos en la tabla FORMA_VETERINARIO
 INSERT INTO FORMA_VETERINARIO 
 VALUES
 (3, 6, '2023-10-19', '2023-11-19');
+
+-- SELECT * FROM FORMA_VETERINARIO;
+
 
 -- Insertar datos en la tabla CUIDADOR
 INSERT INTO CUIDADOR
@@ -82,16 +133,22 @@ VALUES
 (2),
 (5);
 
+-- SELECT * FROM CUIDADOR;
+
 -- Insertar datos en la tabla CAJERO
 INSERT INTO CAJERO 
 VALUES
 (7),
 (8);
 
+-- SELECT * FROM CAJERO;
+
 -- Insertar datos en la tabla FORMA_CUIDADOR
 INSERT INTO FORMA_CUIDADOR
 VALUES
 (5, 2, '2023-10-19', '2023-11-19');
+
+-- SELECT * FROM FORMA_CUIDADOR;
 
 -- Insertar datos en la tabla MANTIENE
 INSERT INTO MANTIENE
@@ -103,6 +160,8 @@ VALUES
 (3, 9, '2022-01-01 12:00:00', '2022-06-01 12:00:00'),
 (5, 10, '2022-01-01 12:00:00', '2022-06-01 12:00:00');
 
+-- SELECT * FROM MANTIENE;
+
 -- Insertar datos en la tabla AFECCION
 INSERT INTO AFECCION 
 VALUES
@@ -113,14 +172,18 @@ VALUES
 ('Salmonelosis', 'Grave', 'Enfermedad bacteriana'),
 ('Toxoplasmosis', 'Leve', 'Otro');
 
+-- SELECT * FROM AFECCION;
+
 -- Insertar datos en la tabla TRATAMIENTO
-INSERT INTO TRATAMIENTO (medicamento, dosis, frecuencia, observaciones, fecha_inicio, fecha_fin, codigo_animal, cod_empleado_veterinario) VALUES
-('Focusín', '125', 8, 'Después de cada toma', '2020-02-17', '2020-02-20', 1, 3),
-('Reparina', '500', 24, 'Antes de dormir', '2020-02-17', '2020-02-25', 1, 3),
-('Focusín', '200', 8, 'Después de cada toma', '2020-11-04', '2020-12-04', 2, 6),
-('Aftosil', '2000', 8, NULL,'2020-11-18', '2020-11-20', 6, 3),
-('Toxoplasmosín', '3000', 12, NULL, '2020-02-22', '2020-02-22', 6, 6),
-('Focusín', '150', 8, NULL, '2020-02-23', '2020-02-20', 1, 6);
+INSERT INTO TRATAMIENTO (nombre_afeccion,medicamento, dosis, frecuencia, observaciones, fecha_inicio, fecha_fin, codigo_animal, cod_empleado_veterinario) VALUES
+('Insomnio','Focusín', '125', 8, 'Después de cada toma', '2020-02-17', '2020-02-20', 1, 3),
+('Insomnio','Reparina', '500', 24, 'Antes de dormir', '2020-02-17', '2020-02-25', 1, 3),
+('Insomnio','Focusín', '200', 8, 'Después de cada toma', '2020-11-04', '2020-12-04', 2, 6),
+('Fiebre aftosa','Aftosil', '2000', 8, NULL,'2020-11-18', '2020-11-20', 6, 3),
+('Toxoplasmosis','Toxoplasmosín', '3000', 12, NULL, '2020-02-22', '2020-02-22', 6, 6),
+('Insomnio','Focusín', '150', 8, NULL, '2020-02-23', '2020-02-20', 1, 6);
+
+-- SELECT * FROM TRATAMIENTO;
 
 -- Insertar datos en la tabla DIAGNOSTICA
 INSERT INTO DIAGNOSTICA
@@ -132,6 +195,8 @@ VALUES
 (2, 'Insomnio', '2018-11-04 00:00:00', 6),
 (6, 'Toxoplasmosis', '2022-02-02 00:00:00', 6);
 
+-- SELECT * FROM DIAGNOSTICA;
+
 -- Insertar datos en la tabla SINTOMAS
 INSERT INTO SINTOMAS
 VALUES
@@ -142,6 +207,8 @@ VALUES
 ('Insomnio', 'Incapacidad para dormir'),
 ('Insomnio', 'Irratibilidad');
 
+-- SELECT * FROM SINTOMAS;
+
 -- Insertar datos en la tabla VACUNA
 INSERT INTO VACUNA
 VALUES
@@ -150,6 +217,8 @@ VALUES
 (5, 3),
 (2, 6),
 (5, 6);
+
+-- SELECT * FROM VACUNA;
 
 -- Insertar datos en la tabla DIETA
 INSERT INTO DIETA (observaciones) 
@@ -161,6 +230,8 @@ VALUES
 (NULL),
 (NULL);
 
+-- SELECT * FROM DIETA;
+
 -- Insertar datos en la tabla ALIMENTA
 INSERT INTO ALIMENTA 
 VALUES
@@ -168,6 +239,8 @@ VALUES
 (1, 2, 2, '2023-02-11 10:56:56'),
 (6, 2, 3, '2023-02-12 12:56:56'),
 (6, 5, 3, '2023-02-11 11:56:56');
+
+-- SELECT * FROM ALIMENTA;
 
 -- Insertar datos en la tabla CUIDA
 INSERT INTO CUIDA
@@ -180,6 +253,8 @@ VALUES
 (4, 5, '2013-08-14 14:56:34', 'Otro', 'Todo correcto'),
 (4, 5, '2013-08-19 08:09:07', 'Otro', 'Todo bien');
 
+-- SELECT * FROM CUIDA;
+
 -- Insertar datos en la tabla FAMILIAR
 INSERT INTO FAMILIAR (nombre, apellido_1, apellido_2, DNI) 
 VALUES
@@ -191,6 +266,8 @@ VALUES
 ('Virginia', 'Wolf', NULL, '35335362N'),
 ('Rashid', 'al-Hawila', NULL, '56564856N'),
 ('Joel Thomas', 'Zimmermann', NULL, '85632544D');
+
+-- SELECT * FROM FAMILIAR;
 
 -- Insertar datos en la tabla TIENE
 INSERT INTO TIENE
@@ -207,6 +284,8 @@ VALUES
 (8, 8),
 (10, 8);
 
+-- SELECT * FROM TIENE;
+
 -- Insertar datos en la tabla TELEFONO_FAMILIAR
 INSERT INTO TELEFONO_FAMILIAR
 VALUES
@@ -222,6 +301,8 @@ VALUES
 (6, '987363532'),
 (7, '987272910'),
 (8, '987878754');
+
+-- SELECT * FROM TELEFONO_FAMILIAR;
 
 -- Insertar datos en la tabla TELEFONO_EMPLEADO
 INSERT INTO TELEFONO_EMPLEADO
@@ -242,6 +323,8 @@ VALUES
 (7, '987270010'),
 (8, '987316421');
 
+-- SELECT * FROM TELEFONO_EMPLEADO;
+
 -- Insertar datos en la tabla ORGANIZA
 INSERT INTO ORGANIZA
 VALUES
@@ -255,6 +338,8 @@ VALUES
 (3, 6),
 (6, 6);
 
+-- SELECT * FROM ORGANIZA;
+
 -- Insertar datos en la tabla TIPO
 INSERT INTO TIPO (cod_dieta, tipo) 
 VALUES
@@ -263,6 +348,8 @@ VALUES
 (2, 'Veg'),
 (3, 'Prot'),
 (3, 'Car');
+
+-- SELECT * FROM TIPO;
 
 -- Insertar datos en la tabla ALIMENTO
 INSERT INTO ALIMENTO (nombre, grasas, proteinas, hidratos, stock) 
@@ -273,6 +360,8 @@ VALUES
 ('Carne de pollo', 0.90, 19.88, 1.40, 500.00),
 ('Placton', 1.10, 8.80, 5.40, 1000.00),
 ('Manzana', 0.50, 1.10, 45.80, 400.00);
+
+-- SELECT * FROM ALIMENTA;
 
 -- Insertar datos en la tabla COMPONE
 INSERT INTO COMPONE
@@ -285,6 +374,8 @@ VALUES
 (3, 5, 1001.00),
 (4, 4, 2000.00);
 
+-- SELECT * FROM COMPONE;
+
 -- Insertar datos en la tabla CLIENTE
 INSERT INTO CLIENTE (DNI, nombre, apellido_1, apellido_2) 
 VALUES
@@ -294,6 +385,8 @@ VALUES
 ('54621823G', 'Freddie', 'Seitaridis', NULL),
 ('65356321G', 'Philip', 'Fry', NULL),
 (NULL, 'Earl', 'Hickey', NULL);
+
+-- SELECT * FROM CLIENTE;
 
 -- Insertar datos en la tabla TELEFONO_CLIENTE
 INSERT INTO TELEFONO_CLIENTE
@@ -305,11 +398,15 @@ VALUES
 (4, '987454545'),
 (4, '987632532');
 
+-- SELECT * FROM TELEFONO_CLIENTE;
+
 -- Insertar datos en la tabla MEMBRESIA
 INSERT INTO MEMBRESIA (porcentaje, precio_anual, fecha_membresia, tipo_membresia, cod_cliente) 
 VALUES
 (60, 10.00, '2022-02-10', 'Inf', 1),
 (50, 33.70, '2022-03-10', 'Sta', 2);
+
+-- SELECT * FROM MEMBRESIA;
 
 -- Insertar datos en la tabla ENTRADA
 INSERT INTO ENTRADA (tipo_de_entrada, precio_base, precio_final, fecha_compra, fecha_visita, codigo_empleado_cajero, codigo_cliente, n_membresia) 
@@ -320,3 +417,39 @@ VALUES
 ('M', 20.95, 20.95, '2020-02-10 12:01:15', '2020-02-10 12:01:15', 8, 4, 2),
 ('O', 20.95, 20.95, '2021-05-15 10:01:15', '2021-05-15 11:00:00', 7, 5, NULL),
 ('M', 20.95, 8.36, '2021-05-15 10:01:15', '2021-05-15 10:01:15', 8, 6, 2);
+
+
+-- SELECT * FROM ENTRADA;
+
+
+-- SELECT * FROM ADMINISTRADOR;
+-- SELECT * FROM AFECCION;
+-- SELECT * FROM ALIMENTA;
+-- SELECT * FROM ANIMAL;
+-- SELECT * FROM CAJERO;
+-- SELECT * FROM CLIENTE;
+-- SELECT * FROM COMPONE;
+-- SELECT * FROM CUIDA;
+-- SELECT * FROM CUIDADOR;
+-- SELECT * FROM DIAGNOSTICA;
+-- SELECT * FROM DIETA;
+-- SELECT * FROM EMPLEADO;
+-- SELECT * FROM ENTRADA;
+-- SELECT * FROM FAMILIAR;
+-- SELECT * FROM FORMA_CUIDADOR;
+-- SELECT * FROM FORMA_VETERINARIO;
+-- SELECT * FROM MANTENIMIENTO;
+-- SELECT * FROM MANTIENE;
+-- SELECT * FROM MEMBRESIA;
+-- SELECT * FROM ORGANIZA;
+-- SELECT * FROM SINTOMAS;
+-- SELECT * FROM TELEFONO_CLIENTE;
+-- SELECT * FROM TELEFONO_EMPLEADO;
+-- SELECT * FROM TELEFONO_FAMILIAR;
+-- SELECT * FROM TIENE;
+-- SELECT * FROM TIPO;
+-- SELECT * FROM TRATAMIENTO;
+-- SELECT * FROM VACUNA;
+-- SELECT * FROM VETERINARIO;
+-- SELECT * FROM VIVE;
+-- SELECT * FROM ZONA
