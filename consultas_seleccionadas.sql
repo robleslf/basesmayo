@@ -697,3 +697,96 @@ DELETE FROM ALIMENTO AS al
 WHERE NOT EXISTS (SELECT cod_alimento
 					FROM COMPONE AS com
                     WHERE al.cod_alimento = com.cod_alimento);
+                    
+				
+                
+-- 19) Eliminar los clientes cuya última compra fue hace más de 10 años y no tienen membresía
+-- SELECT * FROM ENTRADA;
+-- SELECT * FROM MEMBRESIA;
+-- SELECT * FROM CLIENTE;
+
+/* No hay ningún cliente con esas condiciones así que vamos a crear dos clientes, uno que cumpla con ambas y por lo tanto tendrá que ser eliminado, y otro que haya hecho su última compra antes de 2010, pero es miembro del zoo y no se le puede eliminar*/
+
+-- Para el primero haremos la operación 67 -Añadir cliente por primera vez-:
+START TRANSACTION;
+
+INSERT INTO CLIENTE
+SET nombre = 'José María',
+	apellido_1 = 'Gasso',
+    apellido_2 = 'Grimaldo';
+    
+INSERT INTO ENTRADA
+SET tipo_de_entrada = 'O',
+	precio_base = 20.95,
+    precio_final = 20.95,
+    fecha_compra = '2008-02-04 14:12:13',
+    fecha_visita = '2008-02-05 10:12:13',
+    codigo_empleado_cajero = 7,
+    codigo_cliente = (SELECT MAX(cod_cliente) FROM CLIENTE);
+    
+COMMIT;
+
+
+-- Para el segundo vamos a aplicar la operación 182 -Miembro en la primera visita-:
+START TRANSACTION;
+
+INSERT INTO CLIENTE
+SET nombre = 'Verónica Manuela',
+	apellido_1 = 'Trinidad-Consuelo',
+    apellido_2 = 'de la Santísima Cruz';
+    
+INSERT INTO MEMBRESIA
+SET porcentaje = 50,
+	precio_anual = 33.70,
+    fecha_membresia = '2008-02-04',
+    tipo_membresia = 'Sta',
+    cod_cliente = (SELECT MAX(cod_cliente) FROM CLIENTE);
+    
+INSERT INTO ENTRADA
+SET tipo_de_entrada = 'M',
+	precio_base = 20.95,
+    precio_final = ROUND(20.95 - (20.95 * (SELECT porcentaje
+							FROM MEMBRESIA
+                            WHERE n_membresia = (SELECT MAX(n_membresia) FROM MEMBRESIA)) / 100),2),
+    fecha_compra = '2008-02-04 13:12:13',
+    fecha_visita = '2008-02-05 11:12:13',
+    codigo_empleado_cajero = 7,
+    codigo_cliente = (SELECT MAX(cod_cliente) FROM CLIENTE);
+    
+COMMIT;
+
+-- Y ahora vamos a eliminar al cliente 1 que es el que cumple las condiciones para ser eliminado; va a ser necesario eliminarle tambien las entradas que están a su nombre, modificando el campo cliente a NULL; por tanto, requerirá transacción:
+
+START TRANSACTION;
+
+
+UPDATE ENTRADA
+SET codigo_cliente = NULL
+WHERE n_entrada IN (SELECT * FROM (SELECT n_entrada
+								FROM ENTRADA
+                                WHERE fecha_compra < DATE_SUB(CURRENT_DATE, INTERVAL 10 YEAR)) T )
+AND codigo_cliente NOT IN (SELECT cod_cliente
+						FROM MEMBRESIA);
+                        
+/* 
+Se puede actualizar la tabla ENTRADA de una forma más simple, pero hay que desactivar el modo seguro en preferencias:
+
+UPDATE ENTRADA
+SET codigo_cliente = NULL
+WHERE fecha_compra < DATE_SUB(CURRENT_DATE, INTERVAL 10 YEAR)
+AND codigo_cliente NOT IN (SELECT cod_cliente
+						FROM MEMBRESIA);
+*/
+                        
+                        
+
+DELETE FROM CLIENTE
+WHERE cod_cliente IN (SELECT codigo_cliente
+					  FROM ENTRADA
+                      WHERE fecha_compra < DATE_SUB(CURRENT_DATE, INTERVAL 10 YEAR))
+AND cod_cliente NOT IN (SELECT cod_cliente
+						FROM MEMBRESIA);
+                        
+COMMIT;
+                      
+
