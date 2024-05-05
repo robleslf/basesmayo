@@ -98,22 +98,61 @@ HAVING COUNT(DISTINCT an.especie) > 1;
 
 
 -- Buscar cuántos ejemplares de una misma especie viven en zonas del mismo tipo
+-- vamos a añadir dos pandas rojos a una zona de jungla diferente cada uno para comprobar que la consulta funciona correctamente:
+START TRANSACTION;
+INSERT INTO ANIMAL (especie,nombre,genero,fecha_de_ingreso)
+VALUES
+('Ailurus fulgens','Maggie','Hembra',NOW()),
+('Ailurus fulgens','Lisa','Hembra',NOW());
+
+INSERT INTO VIVE
+VALUES
+((SELECT MAX(codigo_animal)-1 FROM ANIMAL),1,NOW(),NULL),
+((SELECT MAX(codigo_animal) FROM ANIMAL),2,NOW(),NULL);
+
+COMMIT;
+
+-- Y ahora vemos que en zonas de jungla viven dos pandas rojos.
 SELECT  zo.tipo AS 'Tipo de zona',
 		an.especie AS 'Especie',
 		COUNT(*) AS 'Nº de ejemplares'
 FROM ANIMAL AS an
 JOIN VIVE AS vi ON (vi.codigo_animal = an.codigo_animal)
 JOIN ZONA AS zo ON (vi.codigo_zona = zo.codigo_zona)
+WHERE fecha_salida IS NULL
+OR fecha_salida > NOW()
 GROUP BY zo.tipo, an.especie;
 		
 		
 -- Obtener las zonas en las que están conviviendo animales de especies diferentes.
+SELECT * FROM ANIMAL;
+SELECT * FROM VIVE;
+SELECT * FROM ZONA;
+-- Para comprobar que funciona la consulta, vamos a añadir a una misma zona tres especies diferentes:
+START TRANSACTION;
+INSERT INTO ANIMAL (especie,nombre,genero,fecha_de_ingreso)
+VALUES
+('Syncerus caffer','Urano','Macho',NOW()),
+('Hippotragus niger','Neptuno','Macho',NOW()),
+('Eudorcas thomsonii','Venus','Hembra',NOW());
+
+INSERT INTO VIVE
+VALUES
+((SELECT MAX(codigo_animal)-2 FROM ANIMAL),6,NOW(),NULL),
+((SELECT MAX(codigo_animal)-1 FROM ANIMAL),6,NOW(),NULL),
+((SELECT MAX(codigo_animal) FROM ANIMAL),6,NOW(),NULL);
+
+COMMIT;
+
+-- Y ahora la zona 5 aparece entre las zonas en las que conviven actualmente animales de especies diferentes
 SELECT  zo.codigo_zona AS 'Código zona',
 		zo.tipo AS 'Tipo de zona',
 		COUNT(DISTINCT an.especie) AS 'Nº de especies diferentes conviviendo'
 FROM ANIMAL AS an
 JOIN VIVE AS vi ON (vi.codigo_animal = an.codigo_animal)
 JOIN ZONA AS zo ON (vi.codigo_zona = zo.codigo_zona)
+WHERE fecha_salida IS NULL
+OR fecha_salida > NOW()
 GROUP BY vi.codigo_zona
 HAVING COUNT(DISTINCT an.especie) > 1;
 
