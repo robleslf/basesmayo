@@ -178,7 +178,7 @@
 |169 |Animales más nuevos por zona |Buscar qué animales de la misma zona son más nuevos que un animal determinado | ANIMAL, VIVE |NO
 |170 |Animales más antiguo por zona |Buscar qué animales de la misma zona son más antiguos que un animal determinado | ANIMAL, VIVE |NO
 |171 |Animales más nuevos por especie |Buscar qué animales de la misma especie son más nuevos que un animal determinado | ANIMAL |NO
-|172 |Animales más antiguos por especie |Buscar qué animales de la misma zona son más nuevos que un animal determinado | ANIMAL |NO
+|172 |Animales más antiguos por especie |Buscar qué animales de la misma zona son más nuevos que un animal determinado; por ejemplo, qué animales han entrado al zoo después del último gorila ingresado | ANIMAL |NO
 | | | | |
 | | | | |
 | | | | |
