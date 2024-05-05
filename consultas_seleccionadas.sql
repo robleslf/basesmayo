@@ -1,4 +1,5 @@
 -- OPERACIONES IMPLEMENTADAS
+USE NUESTRO_ZOOLOGICO;
 
 -- 1) Operación 10 → Añadir un registro de un nuevo empleado y su código de empleado a la tabla de su puesto de trabajo; si el puesto del empleado es VETERINARIO o CUIDADOR, habrá que hacer también la operación 15 o 16 respectivamente a continuación; además hay que añadirle un familiar o vincularle a uno ya existente para tener un contacto al menos, y si es un familiar nuevo, añadir un teléfono a este. También hay que añadir un teléfono al empleado
 
@@ -111,10 +112,17 @@ COMMIT;
 -- Antes de realizar la operación 148, vamos a añadir dos pandas rojos (operación 1), y a cada uno de ellos le vamos a ingresar en una zona diferente, pero ambas de tipo jungla, para comprobar que la operación 148 funciona correctamente:
 START TRANSACTION;
 
-INSERT INTO ANIMAL (especie,nombre,genero,fecha_de_ingreso)
-VALUES
-	('Ailurus fulgens','Maggie','Hembra',NOW()),
-	('Ailurus fulgens','Lisa','Hembra',NOW());
+INSERT INTO ANIMAL 
+SET especie = 'Ailurus fulgens', 
+    nombre = 'Maggie', 
+    genero = 'Hembra', 
+    fecha_de_ingreso = NOW();
+
+INSERT INTO ANIMAL 
+SET especie = 'Ailurus fulgens', 
+    nombre = 'Lisa', 
+    genero = 'Hembra', 
+    fecha_de_ingreso = NOW();
 
 INSERT INTO VIVE
 VALUES
@@ -347,7 +355,7 @@ ORDER BY Empleado;
 -- SELECT * FROM ZONA;
 -- SELECT * FROM VIVE;
 
--- Para ver bien esta consulta es recomendable haber agregado los animales del ejercicio 5 (Urano, Neptuno y Venus), que ahora estarían conviviendo actualmente, y agregar un animal más a esa zona 6 (operación 150), pero ajustarle el valor en fecha_salida a una fecha anterior a la actual, para que a día de hoy ya no fuese compañero de los otros tres.
+-- Para ver bien esta consulta es recomendable haber agregado los animales del ejercicio 5 (Urano, Neptuno y Venus), que estarían conviviendo actualmente, y agregar un animal más a esa zona 6 (operación 150), pero ajustarle el valor en fecha_salida a una fecha anterior a la actual, para que a día de hoy ya no fuese compañero de los otros tres y se vea la diferencia entre animales que conviven actualmente y animales que vivieron en la zona del animal pero a día de hoy ya no viven ahí. En este ejemplo trasladamos al animal 1 a la zona 6 pero diciéndo que la abandonó en 2006 (Operación 150 -Trasladar animal-).
 
 START TRANSACTION;
 
@@ -480,7 +488,7 @@ WHERE codigo_animal IN (SELECT DISTINCT codigo_animal
 
 -- SELECT * FROM ANIMAL;
 
--- Vamos a ingresar siete demonios de tasmania con diferentes fechas de ingreso en el zoo y viviendo en diferentes zonas para este ejemplo (Operación 1):
+-- Vamos a ingresar siete demonios de tasmania con diferentes fechas de ingreso en el zoo y viviendo en diferentes zonas para este ejemplo (Operación 1 -Insertar animal-):
 
 START TRANSACTION;
 
@@ -489,9 +497,9 @@ VALUES
 	('Sarcophilus harrisii','McManaman', 'Macho','2001-06-03 12:30:00','2001-06-02 12:30:00'),
     ('Sarcophilus harrisii','Guti','Macho','2008-06-03 12:30:00',NULL),
     ('Sarcophilus harrisii','Makelele','Macho','2011-06-03 12:30:00',NULL),
-    ('Sarcophilus harrisii','Roberto Carlos','Macho','2014-05-03 12:30:00',NULL),
+    ('Sarcophilus harrisii','Roberta Carlota','Hembra','2014-05-03 12:30:00',NULL),
     ('Sarcophilus harrisii','Raúl','Macho','2014-06-03 12:30:00',NULL),
-    ('Sarcophilus harrisii','Salgado','Macho','2003-06-03 12:30:00',NULL),
+    ('Sarcophilus harrisii','Michelle Salgado','Hembra','2011-06-03 10:30:00',NULL),
     ('Sarcophilus harrisii','Zidane','Macho','2001-01-03 12:30:00',NULL);
     
 INSERT INTO VIVE
@@ -501,7 +509,7 @@ VALUES
     ((SELECT MAX(codigo_animal) - 4 FROM ANIMAL), 3, '2011-06-04 12:30:00', NULL),
     ((SELECT MAX(codigo_animal) - 3 FROM ANIMAL), 3, '2014-05-04 12:30:00', NULL),
     ((SELECT MAX(codigo_animal) - 2 FROM ANIMAL), 1, '2014-06-04 12:30:00', NULL),
-    ((SELECT MAX(codigo_animal) - 1 FROM ANIMAL), 1, '2003-06-04 12:30:00', NULL),
+    ((SELECT MAX(codigo_animal) - 1 FROM ANIMAL), 1, '2011-06-04 10:30:00', NULL),
     ((SELECT MAX(codigo_animal) FROM ANIMAL), 1, '2001-01-04 12:30:00', NULL);
     
 COMMIT;
@@ -527,7 +535,9 @@ WHERE an.codigo_animal IN (SELECT codigo_animal
 
 
 
--- 13) Operación 171 → Animales que han ingresado al zoo más tarde que el último ornitorrinco ingresado
+-- 13) Operación 171 → Animales que han ingresado al zoo más tarde que un animal determinado
+-- En este ejemplo vamos a buscar qué animales ingresaron en el zoo con posterioridad al último ornitorrinco ingresado
+
 -- Con EXISTS:
 SELECT *
 FROM ANIMAL AS an1
@@ -561,7 +571,7 @@ WHERE fecha_de_ingreso > ANY (SELECT MIN(fecha_de_ingreso)
 
 SELECT al.nombre AS 'Alimento',
 		DATE(enta.fecha) AS 'Día',
-		SUM(com.cantidad) AS 'Total de gramos consumidos'
+		CONCAT(ROUND(SUM(com.cantidad),2)," gramos") AS 'Cantidad total'
 FROM COMPONE AS com
 JOIN ALIMENTO AS al ON (com.cod_alimento = al.cod_alimento)
 JOIN ALIMENTA AS enta ON (enta.cod_dieta = com.cod_dieta)
@@ -570,6 +580,120 @@ WHERE com.cod_dieta IN (SELECT cod_dieta
 GROUP BY al.nombre, DATE(enta.fecha);
                     
                     
--- 15) Campaña de vacunación
-                            
+-- 15) Operación 178 → Campaña de vacunación 
+-- Se quiere vacunar a todos los animales que entraron al zoo con una fecha posterior a Makelele y que son de la misma especie que él (A Makelele hay que vacunarle también). Si alguno entró el mismo día que entró Makelele, aunque fuesen unas horas antes, también se le debe vacunar (Salgado).
+-- Además se van a repartir el trabajo entre los veterinarios 3 y 6, el primero se encargará de los machos y el segundo de las hembras.
 
+-- SELECT * FROM VACUNA;
+-- SELECT * FROM ANIMAL;
+
+/* Para este ejemplo es necesario haber insertado los demonios de tasmania del ejercicio 12 */
+
+START TRANSACTION;
+
+INSERT INTO VACUNA (codigo_animal, codigo_empleado_veterinario)
+SELECT codigo_animal, 3
+FROM ANIMAL
+WHERE especie = (SELECT especie 
+                FROM ANIMAL
+                WHERE nombre LIKE 'Makelele')
+AND DATE(fecha_de_ingreso) >= (SELECT DATE(fecha_de_ingreso)
+                        FROM ANIMAL
+                        WHERE nombre Like 'Makelele')
+AND genero LIKE 'Macho';
+
+INSERT INTO VACUNA (codigo_animal, codigo_empleado_veterinario)
+SELECT codigo_animal, 6
+FROM ANIMAL
+WHERE especie = (SELECT especie 
+                FROM ANIMAL
+                WHERE nombre LIKE 'Makelele')
+AND DATE(fecha_de_ingreso) >= (SELECT DATE(fecha_de_ingreso)
+                        FROM ANIMAL
+                        WHERE nombre Like 'Makelele')
+AND genero LIKE 'Hembra';
+
+COMMIT;
+
+
+-- 16) Operación 179 → Eliminar todas las dietas que llevan termitas y eliminar termitas de los alimentos
+
+-- Como se fijaron en los constraints de clave foránea de las tablas ALIMENTA y COMPONE que los ON UPDATE y ON DELETE estuviesen en RESTRICT, antes habrá que borrar los registros donde aparecen termitas en estas tablas. Será necesaria una transacción.
+
+-- SELECT * FROM ALIMENTO;
+-- SELECT * FROM COMPONE;
+-- SELECT * FROM ALIMENTA;
+
+START TRANSACTION;
+
+DELETE FROM ALIMENTA
+WHERE cod_dieta = (SELECT cod_dieta FROM COMPONE
+						WHERE cod_alimento = (SELECT cod_alimento
+												FROM ALIMENTO
+												WHERE nombre LIKE 'termitas'));
+                                                
+DELETE FROM COMPONE
+WHERE cod_alimento = (SELECT cod_alimento
+						FROM ALIMENTO
+						WHERE nombre LIKE 'termitas');
+
+DELETE FROM DIETA
+WHERE cod_dieta = (SELECT cod_dieta FROM COMPONE
+						WHERE cod_alimento = (SELECT cod_alimento
+												FROM ALIMENTO
+												WHERE nombre LIKE 'termitas'));
+                                                
+
+DELETE FROM ALIMENTO
+WHERE cod_alimento = (SELECT * FROM (SELECT cod_alimento
+						FROM ALIMENTO
+						WHERE nombre LIKE 'Termitas') T);
+                        
+/* 
+Se podría hacer así el borrado de termitas en ALIMENTO, pero entonces hay que desactivar el modo seguro en preferencias:
+
+DELETE FROM ALIMENTO
+WHERE nombre LIKE 'Termitas';
+*/
+                                                
+COMMIT;
+
+
+-- 17) Operación 180 → Modificar dieta insuficiente cantidad
+-- Las dietas que lleven plátano, pero en una cantidad inferior a la media de gramos de plátano de todas las dietas con este alimento, van a aumentar su cantidad en dicho alimento en un 20%
+
+-- SELECT * FROM COMPONE;
+-- SELECT * FROM ALIMENTO;
+
+/* Lo que se va a modificar es, en la tabla COMPONE, la dieta 2, alimento 1 (plátano), que tiene 1000 gramos de platano (7000 gramos menos que la media de gramos de plátano en dietas donde está presente este alimento), y va a aumentar a 1200 gramos al sumarle su 20% */
+
+
+UPDATE COMPONE
+SET cantidad = cantidad + (cantidad * 0.2)
+WHERE cantidad < (SELECT * FROM (SELECT AVG(cantidad)
+									FROM 	COMPONE
+									WHERE cod_alimento = (SELECT cod_alimento
+															FROM ALIMENTO
+															WHERE nombre LIKE 'Plátano') ) media_gramos_platano)
+AND cod_alimento = (SELECT cod_alimento
+					FROM ALIMENTO
+					WHERE nombre LIKE 'Plátano');
+                    
+-- 18) Operación 181 → Borrar los alimentos que no están presentes en ninguna dieta
+
+-- HAY QUE DESACTIVAR EL MODO SEGURO EN PREFERENCIAS.
+
+-- SELECT * FROM ALIMENTO;
+-- SELECT * FROM COMPONE;
+
+
+-- Con NOT IN:
+DELETE FROM ALIMENTO
+WHERE cod_alimento NOT IN (SELECT cod_alimento
+							FROM COMPONE);
+                            
+-- Con NOT EXISTS:
+DELETE FROM ALIMENTO AS al
+WHERE NOT EXISTS (SELECT cod_alimento
+					FROM COMPONE AS com
+                    WHERE al.cod_alimento = com.cod_alimento);
