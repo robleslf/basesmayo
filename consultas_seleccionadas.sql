@@ -283,6 +283,40 @@ AND an.especie LIKE 'Canis lupus signatus'
 AND tr.fecha_fin > CURRENT_DATE();
 
 
+-- Qué empleados han tenido contacto con Copito de Nieve
+-- SELECT * FROM VACUNA;
+-- SELECT * FROM CUIDA;
+-- SELECT * FROM ALIMENTA;
+-- SELECT * FROM EMPLEADO;
+
+((SELECT em.codigo_empleado AS 'Código empleado',
+        CONCAT(em.nombre, " ", em.apellido_1, " ",IFNULL(em.apellido_2,"")) AS 'Nombre empleado',
+        'Le vacunó' AS 'Tipo de relación'
+FROM ANIMAL AS an
+JOIN VACUNA AS va ON (an.codigo_animal = va.codigo_animal)
+JOIN EMPLEADO AS em ON (va.codigo_empleado_veterinario = em.codigo_empleado)
+WHERE an.nombre LIKE 'Copito de Nieve'
+AND an.especie LIKE 'Troglodytes gorilla')
+UNION
+(SELECT em.codigo_empleado,
+        CONCAT(em.nombre, " ", em.apellido_1, " ",IFNULL(em.apellido_2,"")),
+        CONCAT('Le cuidó (',cu.tipo_cuidado,') el día ', DATE_FORMAT(cu.fecha, '%d de %M de %Y a las %H:%i:%s'))
+FROM ANIMAL AS an
+JOIN CUIDA AS cu ON (an.codigo_animal = cu.codigo_animal)
+JOIN EMPLEADO AS em ON (cu.codigo_empleado_cuidador = em.codigo_empleado)
+WHERE an.nombre LIKE 'Copito de Nieve'
+AND an.especie LIKE 'Troglodytes gorilla')
+UNION
+(SELECT em.codigo_empleado,
+        CONCAT(em.nombre, " ", em.apellido_1, " ",IFNULL(em.apellido_2,"")),
+        CONCAT('Le dio de comer el día ', DATE_FORMAT(al.fecha, '%d de %M de %Y a las %H:%i:%s'))
+FROM ANIMAL AS an
+JOIN ALIMENTA AS al ON (an.codigo_animal = al.codigo_animal)
+JOIN EMPLEADO AS em ON (al.codigo_empleado_cuidador = em.codigo_empleado)
+WHERE an.nombre LIKE 'Copito de Nieve'
+AND an.especie LIKE 'Troglodytes gorilla'))
+ORDER BY 2;
+
                             
                             
 
