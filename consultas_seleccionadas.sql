@@ -300,7 +300,7 @@ AND tr.fecha_fin > CURRENT_DATE();
 -- SELECT * FROM TELEFONO_EMPLEADO;
 
 ((SELECT em.codigo_empleado AS 'Código empleado',
-        CONCAT(em.nombre, " ", em.apellido_1, " ",IFNULL(em.apellido_2,"")) AS 'Nombre empleado',
+        CONCAT(em.nombre, " ", em.apellido_1, " ",IFNULL(em.apellido_2,"")) AS 'Empleado',
         (SELECT MIN(tefe.telefono) FROM TELEFONO_EMPLEADO AS tefe WHERE tefe.codigo_empleado = em.codigo_empleado) AS 'Teléfono de contacto',
         'Le vacunó' AS 'Tipo de relación'
 FROM ANIMAL AS an
@@ -328,7 +328,48 @@ JOIN ALIMENTA AS al ON (an.codigo_animal = al.codigo_animal)
 JOIN EMPLEADO AS em ON (al.codigo_empleado_cuidador = em.codigo_empleado)
 WHERE an.nombre LIKE 'Copito de Nieve'
 AND an.especie LIKE 'Troglodytes gorilla'))
-ORDER BY 2 DESC;
+ORDER BY Empleado;
+
+
+-- 9) Operación Ver quiénes son los compañeros que conviven con un animal determinado
+
+-- SELECT * FROM ANIMAL;
+-- SELECT * FROM ZONA;
+-- SELECT * FROM VIVE;
+
+-- Para ver bien esta consulta es recomendable haber agregado los animales del ejercicio 5 (Urano, Neptuno y Venus), que ahora estarían conviviendo actualmente, y agregar un animal más a esa zona 6 (operación 150), pero ajustarle el valor en fecha_salida a una fecha anterior a la actual, para que a día de hoy ya no fuese compañero de los otros tres.
+
+START TRANSACTION;
+
+UPDATE VIVE
+SET fecha_salida = '2000-08-03 12:20:55'
+WHERE codigo_animal = 1
+AND codigo_zona = 1 
+AND fecha_entrada = '1999-06-30 13:14:04';
+
+INSERT INTO VIVE
+VALUES
+	(1,6,'2000-08-03 12:22:55','2006-08-03 12:20:55');
+    
+COMMIT;
+
+
+-- Ahora si buscamos quiénes son los compañeros de Urano, solo deberían salir Neptuno y Venus, que son los que viven actualmente con él.
+SELECT com.nombre AS 'Nombre',
+		com.especie AS 'Especie'
+FROM ANIMAL AS com
+JOIN VIVE AS vi ON (com.codigo_animal = vi.codigo_animal)
+WHERE vi.codigo_zona = (SELECT vi.codigo_zona
+						FROM VIVE AS vi
+                        WHERE vi.codigo_animal = (SELECT an.codigo_animal
+													FROM ANIMAL AS an
+                                                    WHERE an.nombre LIKE 'Urano'
+                                                    AND an.codigo_animal != com.codigo_animal))
+AND (vi.fecha_salida > NOW()
+OR vi.fecha_salida IS NULL);
+
+
+                                                    
 
 
 
