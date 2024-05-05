@@ -172,9 +172,9 @@
 |163 |Animal más antiguo por zona   |Ver quién es el animal de una determinada zona que lleva viviendo más tiempo en el zoo |ANIMAL |NO
 |164 |Animal más nuevo por zona   |Ver quién es el animal de una determinada zona que lleva viviendo menos tiempo en el zoo |ANIMAL |NO
 |165 | Numero veterinarios subordinados |Contar cuántos veterinarios están a cargo de cada administrador |EMPLEADO, VETERINARIO | NO
-|165 | Numero cuidadores subordinados |Contar cuántos cuidadores están a cargo de cada administrador |EMPLEADO, VETERINARIO | NO
-|165 | Numero cajeros subordinados |Contar cuántos cajeros están a cargo de cada administrador |EMPLEADO, VETERINARIO | NO
-|165 | Numero mantenimiento subordinados |Contar cuántos empleados de mantenimiento están a cargo de cada administrador |EMPLEADO, VETERINARIO | NO
+|166 | Numero cuidadores subordinados |Contar cuántos cuidadores están a cargo de cada administrador |EMPLEADO, VETERINARIO | NO
+|167 | Numero cajeros subordinados |Contar cuántos cajeros están a cargo de cada administrador |EMPLEADO, VETERINARIO | NO
+|168 | Numero mantenimiento subordinados |Contar cuántos empleados de mantenimiento están a cargo de cada administrador |EMPLEADO, VETERINARIO | NO
 | | | | |
 | | | | |
 | | | | |
