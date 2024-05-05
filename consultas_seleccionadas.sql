@@ -436,10 +436,9 @@ ORDER BY 2;
    
    -- 11) Operación 156 → Ver qué animales siguen una dieta rica en fibra
    
-
-SELECT * FROM ALIMENTA;
-SELECT * FROM TIPO;
-SELECT * FROM ANIMAL;
+-- SELECT * FROM ALIMENTA;
+-- SELECT * FROM TIPO;
+-- SELECT * FROM ANIMAL;
 
 SELECT codigo_animal AS 'Código animal',
 		nombre AS 'Nombre animal',
@@ -452,11 +451,11 @@ WHERE codigo_animal IN (SELECT DISTINCT codigo_animal
                                             WHERE tipo LIKE 'Fib'));
 
 
--- 12)Operación 159 → Ver quién es el animal de una determinada especie que lleva viviendo más tiempo en el zoo
+-- 12)Operación 159 → Ver quién es el animal de una determinada especie que lleva viviendo más tiempo en cada zona del zoo
 
 -- SELECT * FROM ANIMAL;
 
--- Vamos a ingresar siete demonios de tasmania con diferentes fechas de ingreso en el zoo para este ejemplo(Operación 1):
+-- Vamos a ingresar siete demonios de tasmania con diferentes fechas de ingreso en el zoo y viviendo en diferentes zonas para este ejemplo (Operación 1):
 
 START TRANSACTION;
 
@@ -476,12 +475,57 @@ VALUES
     ((SELECT MAX(codigo_animal) - 5 FROM ANIMAL), 3, '2008-06-04 12:30:00', NULL),
     ((SELECT MAX(codigo_animal) - 4 FROM ANIMAL), 3, '2011-06-04 12:30:00', NULL),
     ((SELECT MAX(codigo_animal) - 3 FROM ANIMAL), 3, '2014-05-04 12:30:00', NULL),
-    ((SELECT MAX(codigo_animal) - 2 FROM ANIMAL), 3, '2014-06-04 12:30:00', NULL),
-    ((SELECT MAX(codigo_animal) - 1 FROM ANIMAL), 3, '2003-06-04 12:30:00', NULL),
-    ((SELECT MAX(codigo_animal) FROM ANIMAL), 3, '2001-01-04 12:30:00', NULL);
+    ((SELECT MAX(codigo_animal) - 2 FROM ANIMAL), 1, '2014-06-04 12:30:00', NULL),
+    ((SELECT MAX(codigo_animal) - 1 FROM ANIMAL), 1, '2003-06-04 12:30:00', NULL),
+    ((SELECT MAX(codigo_animal) FROM ANIMAL), 1, '2001-01-04 12:30:00', NULL);
     
 COMMIT;
 
+-- Ahora vamos a buscar quién es el demonio de tasmania que lleva más tiempo viviendo en cada zona de este zoo:
+-- SELECT * FROM ANIMAL;
+-- SELECT * FROM VIVE;
+
+SELECT (SELECT codigo_zona FROM VIVE AS vi WHERE vi.codigo_animal = an.codigo_animal) AS 'Zona',
+		an.nombre AS 'Demonio más antigüo'
+FROM ANIMAL AS an
+WHERE an.codigo_animal IN (SELECT codigo_animal 
+						FROM VIVE
+                        WHERE fecha_entrada IN (SELECT MIN(fecha_entrada)
+												FROM VIVE
+                                                WHERE codigo_animal IN (SELECT codigo_animal
+																		FROM ANIMAL
+                                                                        WHERE especie LIKE 'Sarcophilus harrisii')
+												GROUP BY codigo_zona));
+
+
+
+
+
+
+-- 13) Operación 171 → Animales que han ingresado al zoo más tarde que el último ornitorrinco ingresado
+-- Con EXISTS:
+SELECT *
+FROM ANIMAL AS an1
+WHERE EXISTS (
+    SELECT an2.especie
+    FROM ANIMAL AS an2
+    WHERE an2.especie LIKE 'Ornithorhynchus anatinus'
+    AND an1.fecha_de_ingreso >an2.fecha_de_ingreso
+);
+	
+-- Con ANY:
+SELECT *
+FROM ANIMAL
+WHERE fecha_de_ingreso > ANY (SELECT fecha_de_ingreso
+					FROM ANIMAL
+                    WHERE especie LIKE 'Ornithorhynchus anatinus');
+
+-- Con MIN()
+SELECT *
+FROM ANIMAL
+WHERE fecha_de_ingreso > ANY (SELECT MIN(fecha_de_ingreso)
+					FROM ANIMAL
+                    WHERE especie LIKE 'Ornithorhynchus anatinus');
                             
                             
 
