@@ -159,7 +159,7 @@
 | 150|Trasladar animal |Se modifica la fecha de salida en su zona actual y se añade su nuevo registro en la tabla VIVE |VIVE |SÍ
 |151 |Tratamientos animal |Buscar los tratamientos que está siguiendo actualmente un animal | ANIMAL, TRATAMIENTO|NO
 | 152|Historial de tratamientos |Buscar los tratamientos que ha seguido o está siguiendo un animal |ANIMAL, TRATAMIENTO |NO
-| 153|Empleados contacto animal |Obtener una lista con todos los empleados que han tenido contacto con un animal determinado |EMPLEADO, ALIMENTA, CUIDA, VACUNA, ANIMAL | NO
+| 153|Empleados contacto animal |Obtener una lista con todos los empleados que han tenido contacto con un animal determinado junto con un teléfono de contacto para poder comunicarse con ellos (en caso de tener más de un teléfono, se escogerá el número más pequeño)|EMPLEADO, ALIMENTA, CUIDA, VACUNA, ANIMAL | NO
 | | | | |
 | | | | |
 | | | | |
