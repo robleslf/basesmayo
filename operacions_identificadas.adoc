@@ -128,7 +128,7 @@
 |120        |Contar contactos empleado                |Contar cuántos contactos diferentes tiene un mismo empleado             |EMPLEADO, TIENE                  | NO        
 |   121     |Datos de contacto empleado                |Listar los empleados junto con los datos de contacto de sus familiares             |EMPLEADO, TIENE, TELEFONO_FAMILIAR                  | NO      
 |    122    |    Familiares compartidos            |Listar los familiares que están asignados a más de un empleado             |TIENE, FAMILIAR                  |NO      
-|  123      |  Listar teléfonos              | Hacer una lista con los nombres, apellidos y teléfonos de todos los empleados, clientes y familiares          |   CLIENTE, EMPLEADO, FAMILIAR, TELEFONO_CLIENTE, TELEFONO_FAMILIAR, TELEFONO_EMPLEADO               |      NO
+|  123      |  Listar teléfonos              |Hacer una lista con todo los números de teléfono registrados en la base de datos y el nombre completo de la persona a la que pertenece cada uno, así como un campo que identifique quién es esa persona        |   CLIENTE, EMPLEADO, FAMILIAR, TELEFONO_CLIENTE, TELEFONO_FAMILIAR, TELEFONO_EMPLEADO               |      NO
 |   124     |   Contar dietas por tipo             |         COntar cuántas dietas son ricas en fibra, cuántas en proteínas...    |   TIPO               | NO      
 |  125      | Filtrar alimentos grasos                | Seleccionar los alimentos que tienen un contenido en grasas por debajo de un número determinado             | ALIMENTO                  |NO      
 | 126        | Alimento más protéico                | Buscar el alimento más rico en proteínas             | ALIMENTO                  |      NO
@@ -161,7 +161,7 @@
 | 152|Historial de tratamientos |Buscar los tratamientos que ha seguido o está siguiendo un animal |ANIMAL, TRATAMIENTO |NO
 | 153|Empleados contacto animal |Obtener una lista con todos los empleados que han tenido contacto con un animal determinado indicando el tipo o tipos de relaciones que han tenido con ellos, junto con un teléfono de contacto (en caso de tener más de un teléfono, seleccionar el más pequeño)|EMPLEADO, ALIMENTA, CUIDA, VACUNA, ANIMAL | NO
 |154 |Compañeros de animal |Ver quiénes son los compañeros que conviven con un animal determinado |ANIMAL, VIVE, ZONA |NO
-| | | | |
+|155 |Relación de puestos |Obtener una lista con todos los empleados indicando qué puesto de trabajo desempeña cada uno |EMPLEADO, ADMINISTRADOR, VETERINARIO, CAJERO, CUIDADOR, MANTENIMIENTO |NO
 | | | | |
 | | | | |
 | | | | |
