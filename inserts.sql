@@ -1,3 +1,5 @@
+USE NUESTRO_ZOOLOGICO;
+
 -- Insertar datos en la tabla ANIMAL
 INSERT INTO ANIMAL (especie, nombre, genero, fecha_de_ingreso, fecha_de_nacimiento, fecha_de_fallecimiento) 
 VALUES
