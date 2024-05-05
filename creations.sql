@@ -19,7 +19,7 @@ CREATE TABLE ANIMAL (
     CONSTRAINT ANIMAL_PK
         PRIMARY KEY (codigo_animal),
     CONSTRAINT fecha_de_ingreso_posterior_a_fecha_de_nacimiento
-        CHECK (fecha_de_ingreso > fecha_de_nacimiento),
+        CHECK (fecha_de_ingreso >= fecha_de_nacimiento),
     CONSTRAINT fecha_de_ingreso_anterior_a_fecha_de_fallecimiento
         CHECK (fecha_de_ingreso < fecha_de_fallecimiento),
     CONSTRAINT fecha_de_nacimiento_anterior_a_fecha_de_fallecimiento
