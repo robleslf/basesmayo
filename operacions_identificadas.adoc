@@ -160,7 +160,7 @@
 |151 |Tratamientos animal |Buscar los tratamientos que está siguiendo actualmente un animal | ANIMAL, TRATAMIENTO|NO
 | 152|Historial de tratamientos |Buscar los tratamientos que ha seguido o está siguiendo un animal |ANIMAL, TRATAMIENTO |NO
 | 153|Empleados contacto animal |Obtener una lista con todos los empleados que han tenido contacto con un animal determinado indicando el tipo o tipos de relaciones que han tenido con ellos, junto con un teléfono de contacto (en caso de tener más de un teléfono, seleccionar el más pequeño)|EMPLEADO, ALIMENTA, CUIDA, VACUNA, ANIMAL | NO
-| | | | |
+|154 |Compañeros de animal |Ver quiénes son los compañeros que conviven con un animal determinado |ANIMAL, VIVE, ZONA |NO
 | | | | |
 | | | | |
 | | | | |
