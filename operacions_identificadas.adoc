@@ -69,7 +69,7 @@
 |  64      |Añadir composición                |Añadir alimento y cantidad a la composición de una dieta             |COMPONE                  |NO      
 |65        |Eliminar composición                |Eliminar un registro de la tabla COMPONE             |COMPONE                  |NO      
 |  66      |Modificar composición                |Modificar alimento o cantidad en la composición de una dieta             |COMPONE                  |NO      
-|  67      |Añadir cliente                |Añadir un nuevo cliente             |CLIENTE                  |NO      
+|  67      |Añadir cliente por primera vez                |Añadir un nuevo cliente a la tabla CLIENTE y su correspondiente primera entrada en ENTRADA           |CLIENTE, ENTRADA                  |SÍ
 |68        |Eliminar cliente                |Eliminar un cliente             |CLIENTE                  |NO         
 |        69|Modificar un cliente                |Modificar un cliente             |CLIENTE                  |NO        
 |   70     |Añadir teléfono cliente                |Añadir un nuevo teléfono a un cliente             |  TELEFONO_CLIENTE                |      NO
@@ -189,4 +189,5 @@
 | 180|Modificar dieta insuficiente cantidad |Modificar la cantidad de un alimento en las dietas en las que se considere insufuciente o demasiada la cantidad de dicho alimento |COMPONE,ALIMENTO |NO
 |181 |Borrar alimentos innecesarios |Borrar los alimentos que no están presentes en nninguna dieta |COMPONE, ALIMENTO |NO
 |182 |Miembro en la primera visita |Hacer miembro a un cliente que visita el zoológico por primera vez, y es por tanto registrado como cliente y se le abre un registro en la tabla MEMBRESIA |MEMBRESIA, CLIENTE |SÍ
+|  67      |Entrada cliente habitual                |Añadir una nueva entrada        | ENTRADA                  |NO
 |===
