@@ -167,6 +167,10 @@
 | 158|Animal más joven por especie |Ver quién es el animal más joven de una especie (no es del todo fiable porque puede haber animales con la fecha de nacimiento desocnocida) |ANIMAL |NO
 |159 |Animal más antiguo por especie   |Ver quién es el animal de una determinada especie que lleva viviendo más tiempo en el zoo |ANIMAL |NO
 |160 |Animal más nuevo por especie   |Ver quién es el animal de una determinada especie que lleva viviendo menos tiempo en el zoo |ANIMAL |NO
+|161 |Animal más longevo por zona |Ver quién es el animal más longevo de una zona (no es del todo fiable porque puede haber animales con la fecha de nacimiento desocnocida) |ANIMAL |NO
+| 162|Animal más joven por zona |Ver quién es el animal más joven de una zona (no es del todo fiable porque puede haber animales con la fecha de nacimiento desocnocida) |ANIMAL |NO
+|163 |Animal más antiguo por zona   |Ver quién es el animal de una determinada zona que lleva viviendo más tiempo en el zoo |ANIMAL |NO
+|164 |Animal más nuevo por zona   |Ver quién es el animal de una determinada zona que lleva viviendo menos tiempo en el zoo |ANIMAL |NO
 | | | | |
 | | | | |
 | | | | |
