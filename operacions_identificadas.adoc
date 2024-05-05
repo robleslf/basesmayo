@@ -163,9 +163,10 @@
 |154 |Compañeros de animal |Ver quiénes son los compañeros que conviven con un animal determinado |ANIMAL, VIVE, ZONA |NO
 |155 |Relación de puestos |Obtener una lista con todos los empleados indicando qué puesto de trabajo desempeña cada uno |EMPLEADO, ADMINISTRADOR, VETERINARIO, CAJERO, CUIDADOR, MANTENIMIENTO |NO
 |156 |Animales siguiendo dieta determinada |Ver qué animales están siguiendo un tipo de dieta determinado (rica en fibra, proteínas...) |TIPO, ALIMENTA, ANIMAL | NO
-|157 |Animal más longevo por especie |Ver quién es el animal más longevo de una especie |ANIMAL |NO
-| 158|Animal más joven por especie |Ver quién es el animal más joven de una especie |ANIMAL |NO
-| | | | |
+|157 |Animal más longevo por especie |Ver quién es el animal más longevo de una especie (no es del todo fiable porque puede haber animales con la fecha de nacimiento desocnocida) |ANIMAL |NO
+| 158|Animal más joven por especie |Ver quién es el animal más joven de una especie (no es del todo fiable porque puede haber animales con la fecha de nacimiento desocnocida) |ANIMAL |NO
+|159 |Animal más antiguo por especie   |Ver quién es el animal de una determinada especie que lleva viviendo más tiempo en el zoo |ANIMAL |NO
+|160 |Animal más nuevo por especie   |Ver quién es el animal de una determinada especie que lleva viviendo menos tiempo en el zoo |ANIMAL |NO
 | | | | |
 | | | | |
 | | | | |
