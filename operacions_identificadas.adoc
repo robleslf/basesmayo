@@ -183,7 +183,7 @@
 |174 |Animal más nuevo en cada zona |Ver quién es el animal que lleva viviendo menos tiempo en cada zona del zoo |ANIMAL, VIVE |NO
 |175 |Animal por especie más antiguo en cada zona |Ver quién es el animal de una determinada especie que lleva viviendo más tiempo en cada zona del zoo |ANIMAL, VIVE |NO
 |176 |Animal por especie más nuevo en cada zona |Ver quién es el animal de una determinada especie que lleva viviendo menos tiempo en cada zona del zoo |ANIMAL, VIVE |NO
-| | | | |
+|177 |Cantidad alimento por día | Ver cuánta cantidad de alimento se ha gastado cada día |ALIMENTO, ALIMENTA, COMPONE |NO
 | | | | |
 | | | | |
 | | | | |
