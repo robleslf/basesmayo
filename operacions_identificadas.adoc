@@ -179,7 +179,216 @@
 |170 |Animales más antiguo por zona |Buscar qué animales de la misma zona son más antiguos que un animal determinado | ANIMAL, VIVE |NO
 |171 |Animales más nuevos por especie |Buscar qué animales de la misma especie son más nuevos que un animal determinado | ANIMAL |NO
 |172 |Animales más antiguos por especie |Buscar qué animales de la misma zona son más nuevos que un animal determinado | ANIMAL |NO
+| | |= Operaciones identificadas
+
+|=== 
+| Número | Nome Operación | Descripción | Táboas Afectadas | Requiere Transacción 
+| 1        |    Insertar animal           |  Insertar un nuevo registro de un animal recién nacido o ingresado en el zoo; además de en la tabla animal, se debe registrar en la tabla VIVE para indicar en qué zona del zoológico ha sido ingresado           |   ANIMAL, VIVE              |  SÍ            
+|  2      |  Borrar animal              |  Eliminación del registro de un animal del que ya no sea necesario mantener sus datos           |  ANIMAL                |  NO                    
+|   3     |     Modificar animal           |   Modificación de los datos de un animal que no sean correctos          |  ANIMAL                   | NO                      
+|  4      |   Insertar zona             |    Añadir una nueva zona del zoológico a la base de datos       |    ZONA              |    NO
+|  5       |       Borrar zona         |  Eliminar un registro de una zona que haya sido destruida o eliminada del zoo           |    ZONA              |  NO 
+|  6      |       Modificar zona         |    Modificar los datos de una zona que haya sido remodelada o cuyos datos no sean correctos        |    ZONA           |   NO
+|  7      |    Inserción en VIVE            |  Insertar un registro nuevo en la tabla cuando un animal entre a una zona por primera vez         |   VIVE               | NO  
+|    8    |                |             |                  |   
+|        |   Modificación en VIVE            |   Añadir fecha de salida en la zona en la que va a dejar de vivir un animal y añadir un nuevo registro con la zona y fechas de su nueva zona          |      VIVE            |   SÍ
+|    9    |   Modificación definitiva VIVE            | Insertar fecha de salida de un animal que abandona el zoo por cualquier causa            |  VIVE                | NO  
+|    10    |    Insertar empleado           |     Añadir un registro de un nuevo empleado y su código de empleado a la tabla de su puesto de trabajo; si el puesto del empleado es VETERINARIO o CUIDADOR, habrá que hacer también la operación 15 o 16 respectivamente a continuación; además hay que añadirle un familiar o vincularle a uno ya existente para tener un contacto al menos, y si es un familiar nuevo, añadir un teléfono a este. También hay que añadir un teléfono al empleado     |      EMPLEADO, ADMINISTRADOR VETERINARIO CUIDADOR CAJERO, MANTENIMIENTO, FAMILIAR, TELEFONO_FAMILIAR, TELEFONO_EMPLEADO, TIENE         |   SÍ
+|  11      |  Modificación de empleado              |  Modificación en los datos de un empleado           |    EMPLEADO              |   NO
+|  12      |  Borrado de un empleado              | Eliminar un registro de un empleado            | EMPLEADO                  | NO   
+|  13      | Ascenso de Empleado                |  Ajustar a NULL la columna codigo_empleado_administrador del empleado en EMPLEADO y añadir su codigo_empleado en la tabla ADMINISTRADOR           |  EMPLEADO, ADMINISTRADOR                |   SÍ
+|   14     | Cambio puesto empleado                  | Eliminar el código de un empleado en la tabla de su puesto y añadirlo en la de su nuevo puesto; si el nuevo puesto es VETERINAIO o CUIDADOR, habrá que hacer a continuación la operación 15 o 16              | VETERINARIO, MANTENIMIENTO, CUIDADOR, CAJERO                 |   SÍ
+| 15       |  Nuevo veterinario              | Añadir el código de empleado a VETERINARIO y su registro correspondiente en la tabla FORMA_VETERINARIO para iniciar su formación            |    VETERINARIO, FORMA_VETERINARIO              |  SÍ 
+|  16      |   Nuevo cuidador             |  Añadir el código de empleado a CUIDADOR y a continuación su correspondiente registro en FORMA_CUIDADOR           | CUIDADOR, FORMA_CUIDADOR                      |SÍ   
+|  17      |Añadir registro MANTIENE                |Insertar un nuevo registro en MANTIENE    | MANTIENE                  |NO   
+|  18      |       Modificar MANTIENE         |Modificar un registro en la tabla cuyos datos no sean correctos             |MANTIENE                  |NO   
+| 19       |Eliminar MANTIENE                |Eliminar un registro en la tabla             |MANTIENE                  |NO   
+|  20      |  Añadir afección              | Añadir una nueva afección a la base de datos             | AFECCION                  |NO   
+|  21      |Eliminar afección                |Eliminar una afección de la base de datos          |AFECCION                |NO   
+| 22       |   Modificar afección             |Modificar los datos de una afección             |AFECCION                  |NO   
+|  23      |Añadir diagnóstico y tratamiento                |Añadir un nuevo tratamiento a un animal; para ello debe haber sido diagnosticado antes, por lo que se añadirá primero un registro en la tabla DIAGNOSTICA y a continuación el tratamiento en la tabla TRATAMIENTO             |  DIAGNOSTICA, TRATAMIENTO                |SÍ   
+|  24      |Modificar tratamiento                |Modificar un tratamiento             |TRATAMIENTO                  |NO   
+|  25      | Modificar diagnóstico               |Modificar un diagnóstico sin cambios en el tratamiento             | TRATAMIENTO                 |NO   
+|26        |Modificar diagnóstico y tratamiento                |Modificar un diagnóstico y en consecuencia cambiar la fecha de fin de su tratamiento a la fecha actual y añadir un nuevo tratamiento             |DIAGNOSTICA, TRATAMIENTO                  |SÍ   
+| 27       |Eliminar un diagnóstico                |Eliminar el registro de un diagnóstico (en general no debería eliminarse ningún diagnóstico, salvo que que se haya registrado uno falso, duplicado...)             |  DIAGNOSTICA                |NO   
+| 28       |Añadir síntomas                |Añadir síntomas a una afección             |SINTOMAS                  |NO   
+|29        |Eliminar síntomas                |Eliminar síntomas de una afección             |SINTOMAS                  |NO   
+| 30       |Modificar síntomas                |Modificar síntomas             |SINTOMAS                  |NO   
+|  31      |  Añadir vacuna              |Añadir una vacuna cuando un veterinario vacune a un animal             |VACUNA                  |NO   
+|  32      |Modificar registro vacuna                |Modificar un registro de la tabla vacuna que contenga algún error             |VACUNA                  |NO   
+|33        |Eliminar registro vacuna                |Eliminar un registro de VACUNA (por lo general no deben eliminarse nunca los registros de las vacunas, salvo que se trate de algún error o similar)             |VACUNA                  |NO   
+|  34      |Añadir dieta                |Añadir una nueva dieta             |DIETA                  |NO   
+|  35      |Modificar dieta                |Modificar una dieta             |DIETA                  |NO   
+|  36      |Eliminar una dieta                |Eliminar una dieta             |DIETA                  |NO   
+|   37     |Añadir registro ALIMENTA                |Añadir un registro en ALIMENTA cada vez que un cuidador alimente un animal             |ALIMENTA                  |NO   
+|  38      |Eliminar ALIMENTA                |Eliminar un registro en ALIMENTA (por lo general, salvo que se trate de un error, no debe eliminarse ningún registro de esta tabla)             |ALIMENTA                  |NO   
+|   39     | Modificar ALIMENTA                |Modificar un registro de la tabla               |ALIMENTA                  |NO        
+|   40     |      Añadir un cuidado          |    Añadir el registro de un cuidado llevado a cabo por un cuidador a algún animal          |CUIDA                  |NO      
+|41        |   Eliminar un cuidado             | Eliminar un cuidado             | CUIDA                  | NO      
+|42        | Modificar un cuidado                | Modificar un cuidado             |CUIDA                  |NO      
+|    43    |   Añadir un familiar             |Añadir un familiar             |FAMILIAR                  |NO      
+|44        |Eliminar un familiar                |Eliminar un familiar             |FAMILIAR                  |NO      
+| 45       |Modificar un familiar                |Modificar un familiar             |FAMILIAR                  |NO      
+|46        |   Añadir relacón empleado-familiar             |Añadir una relación entre empleado y familiar             |TIENE                  |NO      
+|47        |Eliminar relación empleado-familiar                |Eliminar una relación entre un empleado y un familiar             |TIENE                  |NO      
+|48        |Modificar relación empleado-familiar                |Modificar una relación empleado-familiar             |TIENE                  |NO      
+|49        |     Añadir teléfono familiar           |Añadir un nuevo teléfono a un familiar             |TELEFONO_FAMILIAR                  |NO      
+|        50 |Modificar teléfono familiar                |Modificar el teléfono de un familiar             |TELEFONO_FAMILIAR                  |NO      
+|      51  |Eliminar teléfono familiar                |Eliminar el teléfono de un familiar             |TELEFONO_FAMILIAR                  |NO  
+|52        |     Añadir teléfono empleado           |Añadir un nuevo teléfono a un empleado             |TELEFONO_EMPLEADO                  |NO      
+|        53 |Modificar teléfono empleado                |Modificar el teléfono de un empleado             |TELEFONO_EMPLEADO                  |NO      
+|      54  |Eliminar teléfono empleado                |Eliminar el teléfono de un empleado             |TELEFONO_EMPLEADO                  |NO      
+|   55     | Añadir organización dieta               |Añadir un registro en una nueva dieta organizada por un veterinario               |ORGANIZA                  |NO  
+|   56     | Modificar organización dieta               |Modificar un registro en una dieta organizada por un veterinario               |ORGANIZA                  |NO 
+|   57     | Eliminar organización dieta               |Eliminar un registro en una dieta organizada por un veterinario               |ORGANIZA                  |NO     
+|   58     |  Añadir tipo dieta              |Añadir un tipo nuevo a una dieta             |TIPO                  |NO      
+|59        |Modificar tipo dieta                |Modificar un tipo en una dieta             |TIPO                  |NO      
+|60        |Eliminar tipo dieta                |Eliminar un tipo en una dieta             |TIPO                  |NO      
+|   61     |Añadir alimento                |Añadir un nuevo alimento             |ALIMENTO                  |NO      
+|62        |Eliminar alimento                |ELiminar un alimento             |ALIMENTO                  |NO      
+|63        |Modificar alimento                |Modificar un alimento             |ALIMENTO                  |NO      
+|  64      |Añadir composición                |Añadir alimento y cantidad a la composición de una dieta             |COMPONE                  |NO      
+|65        |Eliminar composición                |Eliminar un registro de la tabla COMPONE             |COMPONE                  |NO      
+|  66      |Modificar composición                |Modificar alimento o cantidad en la composición de una dieta             |COMPONE                  |NO      
+|  67      |Añadir cliente                |Añadir un nuevo cliente             |CLIENTE                  |NO      
+|68        |Eliminar cliente                |Eliminar un cliente             |CLIENTE                  |NO         
+|        69|Modificar un cliente                |Modificar un cliente             |CLIENTE                  |NO        
+|   70     |Añadir teléfono cliente                |Añadir un nuevo teléfono a un cliente             |  TELEFONO_CLIENTE                |      NO
+| 71       |Eliminar teléfono cliente                |Eliminar un teléfono de un cliente             |TELEFONO_CLIENTE                  |NO      
+|72        |   Modificar teléfono cliente              |Modificar un teléfono de un cliente             |TELEFONO_CLIENTE                  |NO      
+|    73    |Añadir membresía                |Añadir una nueva membresía             |MEMBRESIA                  |NO      
+|       74 |Eliminar membresía                |Eliminar el registro de una membresía             |MEMBRESIA                  |NO      
+|        75|Modificar membresía                |Modificar el registro de una membresía             |MEMBRESIA                  |NO      
+|76        |Añadir entrada                |Añadir una nueva entrada             |ENTRADA                  |NO      
+|77        |Eliminar entrada                |Eliminar       una entrada             |ENTRADA                  |NO      
+|78        |Modificar entrada                |Modificar una entrada             |ENTRADA                  |NO      
+| 79       |Buscar por especie                |Buscar los animales que pertenezcan a la misma especie             |ANIMAL                  |NO      
+|80        | Animal más antiguo/nuevo               |Buscar el animal que ingresó más recientemente o más antiguo del zoo por su fecha de ingreso        |ANIMAL                  |NO      
+|     81   |Animal por género                |Buscar los animales que tengan un determinado género             |ANIMAL                  |NO      
+|     82   |Animal más joven/viejo                |Buscar el animal más joven o más viejo a partir de su fecha de nacimiento             |ANIMAL                  |NO      
+|83        |Animales vivos/muertos                |Buscar los animales cuya fecha de fallecimiento sea o no NULL             |ANIMAL                  |NO      
+| 84       |Zona por tipo                |Buscar zonas de un determinado tipo             |ZONA                  |NO      
+|  85      |  Zona por superficie              |Buscar zonas que sean de una superficie mayor, menor o igual a un determinado número de metros cuadrados             |ZONA                  | NO      
+|86        |     Zonas con descripción           |BUscar zonas cuya descripción no sea NULL             |ZONA                  |NO      
+|  87      |Animales en tipo zona                |Buscar los animales que viven en un mismo tipo de zona             |       ZONA,ANIMAL,VIVE           |NO      
+|  88      |Animales en zona                |BUscar los animales que viven en una zona determinada             |VIVE                  |NO      
+|89        |Especies en zona                |Buscar el número de especies diferentes que viven en una misma zona             |   ANIMAL, VIVE               |  NO    
+| 90       |Especies en tipo zona                |Buscar el número de especies que viven en zonas de un determinado tipo             | ANIMAL, ZONA, VIVE                  |NO      
+| 91       |Fecha entrada/salida zona                |Buscar en qué fecha entró/salió un animal de una determinada zona             |VIVE                  |NO      
+|92        | Último animal zona               |Buscar el último animal en ingresar en una zona determinada             |VIVE                  |NO      
+|    93    |Ordenar empleados alfabéticamente                |Ordenar los empleados por sus apellidos y nombre             | EMPLEADO                  |NO   
+|    94    | Buscar animal por nombre                | Buscar un animal por su nombre             |ANIMAL                  |NO        
+| 95       |Buscar empleado por nombre                |Buscar a un empleado por su nombre y apellidos             | EMPLEADO                  |NO      
+|    96    |Contar subordinados por administrador                | Contar cuántos empleados están a cargo de cada administrador             |                  |      
+|    97    |Datos de administradores                |Buscar el nombre, apellidos y demás datos de los administradores             |EMPLEADO, ADMINISTRADOR                  |NO      
+|98        |Teléfonos de administradores                | Buscar los números de teléfono de los empleados que son administradores junto con sus nombres y apellidos            |ADMINISTRADOR, EMPLEADO, TELEFONO_EMPLEADO                   |NO      
+|  99      | Teléfonos de veterinarios                |Buscar los teléfonos de los veterinarios junto con sus datos personales             |VETERINARIO, EMPLEADO, TELEFONO_EMPLEADO                  |    NO  
+|  100      | Teléfonos de cuidadores                |Buscar los teléfonos de los cuidadores junto con sus datos personales             |CUIDADOR, EMPLEADO, TELEFONO_EMPLEADO                  | NO
+|  99      | Teléfonos de cajeros                |Buscar los teléfonos de los cajeros junto con sus datos personales             |CAJERO, EMPLEADO, TELEFONO_EMPLEADO                  | NO
+|  99      | Teléfonos de mantenimiento                |Buscar los teléfonos del personal de mantenimiento junto con sus datos personales             |MANTENIMIENTO, EMPLEADO, TELEFONO_EMPLEADO                  | NO
+|   100     |Datos de formadores/formados (veterinario)         |Buscar datos personales de los veterinarios formadores y el nombre de los veterinarios formados por cada uno              |EMPLEADO, FORMA_VETERINARIO, TELEFONO_EMPLEADO                  |NO 
+|   101     |Datos de formadores/formados (cuidador)         |Buscar datos personales de los cuidadores formadores y el nombre de los cuidadores formados por cada uno              |EMPLEADO, FORMA_CUIDADOR, TELEFONO_EMPLEADO                  |NO      
+|   102     | ¿Veterinario en formación?                |Buscar si un veterinario está aún formándose o no en función de su fecha de finalización de formación             |FORMA_VETERINARIO, EMPLEADO                  |   NO   
+|   103     | Cuidador en formación?                |Buscar si un cuidador está aún formándose o no en función de su fecha de finalización de formación             |FORMA_CUIDADOR, EMPLEADO                  |   NO    
+|    104    |  Veterinarios en formación 2           |Listar todos los veterinarios del zoo con un campo que indique si están en formación o no, y en caso de que no, cuándo la finalizaron             | EMPLEADO, ZONA                  |    NO  
+|    105    |Filtrar por gravedad                |Buscar las enfermedades calificadas como graves/leves            |    AFECCIÓN              |      NO
+|    106    |Filtrar por tipo                |Buscar qué afecciones pertenecen a un determinado tipo             |AFECCIÓN                  |NO      
+|107        |Animales graves                |Buscar qué animales padecen una afección grave y requieren cuidados inmediatos (habrá que filtrar por fecha para comprobar si el animal ya superó la afección)            |      ANIMAL, TRATAMIENTO            |NO      
+|     108   |Animales misma enfermedad                |Buscar qué animales están sufriendo una determinada enfermedad             |   TRATAMIENTO, ANIMAL               |  NO     
+|  109      |Animales mima enfermedad 2                |Buscar cuántos animales están sufriendo una determinada enferemedad             |TRATAMIENTO                  |NO      
+|    110    |¿Animal enfermo?                |Comprobar si una animal está siguiendo algún tratamiento actualmente             |TRATAMIENTO, ANIMAL                  | NO      
+|   111     |Buscar síntomas enfermedad|Buscar qué síntomas tiene una determinada enfermedad             |SINTOMAS                  |NO      
+|112        |Buscar enfermedad síntomas                |Buscar, a partir de los síntomas que presenta un determinado animal, qué enfermedades encajan con estos             |SINTOMAS                  |NO      
+|   113     |¿Animal vacunado?                |Comprobar si un animal está vacunado             |VACUNA, ANIMAL                  |NO      
+|114        |Veterinario animales vacunados                |Ver qué animales han sido vacunados por un veterinario determinado             |EMPLEADO, VACUNA, ANIMAL                  |      NO
+|   115     |   Observaciones en dietas             |Ver qué dietas tienen observaciones (campo IS NOT NULL)             |DIETA                  |NO      
+|  116      |   Comprobar si comió hoy             |Comprobar si un animal ha comido hoy buscando si tiene una fecha correspondiente al día de hoy             |ALIMENTA, ANIMAL                  |NO      
+| 117       |    Cuidadores de un animal      |    Comprobar qué cuidadores están encargándose de un determinado animal               |    CUIDA, ANIMAL, EMPLEADO              |  NO    
+|  118      | Tipo de cuidado                |Buscar qué tipos de cuidado ha recibido un animal determinado en el último mes/semana...             | CUIDA, ANIMAL                  |   NO   
+|    119    | Familiares ordenados alfabéticamente                |Ordenar los familiares por orden alfabético a partir de sus apellidos y nombre             | FAMILIAR                  |NO   
+|120        |Contar contactos empleado                |Contar cuántos contactos diferentes tiene un mismo empleado             |EMPLEADO, TIENE                  | NO        
+|   121     |Datos de contacto empleado                |Listar los empleados junto con los datos de contacto de sus familiares             |EMPLEADO, TIENE, TELEFONO_FAMILIAR                  | NO      
+|    122    |    Familiares compartidos            |Listar los familiares que están asignados a más de un empleado             |TIENE, FAMILIAR                  |NO      
+|  123      |  Listar teléfonos              |Hacer una lista con todo los números de teléfono registrados en la base de datos y el nombre completo de la persona a la que pertenece cada uno, así como un campo que identifique quién es esa persona        |   CLIENTE, EMPLEADO, FAMILIAR, TELEFONO_CLIENTE, TELEFONO_FAMILIAR, TELEFONO_EMPLEADO               |      NO
+|   124     |   Contar dietas por tipo             |         COntar cuántas dietas son ricas en fibra, cuántas en proteínas...    |   TIPO               | NO      
+|  125      | Filtrar alimentos grasos                | Seleccionar los alimentos que tienen un contenido en grasas por debajo de un número determinado             | ALIMENTO                  |NO      
+| 126        | Alimento más protéico                | Buscar el alimento más rico en proteínas             | ALIMENTO                  |      NO
+|   127     | Cantidad total dieta                |Calcular la cantidad total de gramos que compone cada dieta mediante la función SUM y GROUP BY        |  COMPONE                |     NO 
+|    128    |Alimentos diferentes dieta                |COntar cuántos alimentos diferentes componen cada dieta             |COMPONE                  |NO      
+|  129      |   Dietas con alimento concreto            |  Listar dietas que llevan un determinado alimento           |ALIMENTO, COMPONE                  |NO      
+|  130      | Cantidad media de alimento                | Buscar cuál es la cantidad media en gramos de un alimento por dieta             |  ALIMENTO, COMPONE                |NO      
+|   131     |     Ordenar clientes alfabéticamente           |Ordenar los clientes alfabéticamente por apellidos y nombre             | CLIENTE                  |NO      
+|   132     |Clientes con/sin DNI                |Listar los clientes de los que se conoce/desconoce su DNI             |CLIENTE                  |NO      
+|   133     | Lista teléfonos clientes               |Listar los teléfonos de los clientes junto con sus datos personales             |   CLIENTE, TELEFONO_CLIENTE               |NO      
+|  134      |Listar socios                |Listar los clientes que son miembros del zoológico             |CLIENTE, MEMBRESÍA                  |NO      
+|   134     |Contar clientes por tipo membresía                |COntar cuántos clientes pertenecen a cada tipo de membresía             |MEMBRESIA                  |NO      
+|  135      |Ordenar membresías por precio                |Ordenar las membresías por precio mayor a menor             |MEMBRESIA                  |NO      
+|   136     |Contar por tipo entrada                |Contar cuántas entradas son ordinarias y cuántas son por membresía             |ENTRADA                  |NO      
+|   137     |Precio medio de una entrada                |Obtener el precio medio de las entradas             |ENTRADA                  |NO      
+|138        |Precio medio por tipo                |Obtener el precio medio de las entradas ordinarias y de las entradas por membresía             | ENTRADA                  |NO      
+|  139      |Diferencia máxima precio inicial-final                |Obtener cuál es la entrada con una mayor diferencia entre su precio inicial y su precio final             |       ENTRADA           |NO      
+|  140      |Cajero que atendió cliente                |Obtener los datos del cajero que atendió a un determinado cliente en un determinado día              | ENTRADA, EMPLEADO, CLIENTE                  |NO      
+| 141    | Buscar animales por edad | Buscar animales que tengan una determinada edad en el zoológico. | ANIMAL | NO 
+| 142    | Contar empleados por puesto | Contar la cantidad de empleados que ocupan cada puesto en el zoológico. | EMPLEADO | NO 
+| 143| Clientes activos | Obtener todos los clientes que han realizado una compra de entrada en el último mes | CLIENTE, ENTRADA | NO
+|144 | Cantidad de comida por animal | Mostrar la cantidad total de comida que se le ha dado a un animal en un determinado día  | ANIMAL, DIETA, ALIMENTA|NO
+|145 | Especie más ingresos |Obtener qué especie ha tenido más ingresos en el zoológico en el último año| ANIMAL |  NO
+|146 |Animales trasladados recientemente |Ver qué animales han sufrido un traslado de zona en el último mes | ANIMAL, VIVE | NO
+|    147   |   Tiempo manteniendo zona             |Calcular la cantidad de tiempo que un empleado de mantenimiento ha estado encargado de una zona determinada             | EMPLEADO, ZONA                  |    NO 
+|148 |Animales misma especie en zonas de mismo tipo |Buscar cuántos ejemplares de una misma especie viven ACTUALMENTE en zonas del mismo tipo; por ejemplo, ver cuántos gorilas están viviendo en zonas de jungla, aunque sean dos zonas diferentes | ANIMAL, VIVE, ZONA| NO
+|149 |Zonas con varias epescies |Obtener las zonas en las que están conviviendo actualmente animales de especies diferentes | ANIMAL, ZONA, VIVE |NO
+| 150|Trasladar animal |Se modifica la fecha de salida en su zona actual y se añade su nuevo registro en la tabla VIVE |VIVE |SÍ
+|151 |Tratamientos animal |Buscar los tratamientos que está siguiendo actualmente un animal | ANIMAL, TRATAMIENTO|NO
+| 152|Historial de tratamientos |Buscar los tratamientos que ha seguido o está siguiendo un animal |ANIMAL, TRATAMIENTO |NO
+| 153|Empleados contacto animal |Obtener una lista con todos los empleados que han tenido contacto con un animal determinado indicando el tipo o tipos de relaciones que han tenido con ellos, junto con un teléfono de contacto (en caso de tener más de un teléfono, seleccionar el más pequeño)|EMPLEADO, ALIMENTA, CUIDA, VACUNA, ANIMAL | NO
+|154 |Compañeros de animal |Ver quiénes son los compañeros que conviven con un animal determinado |ANIMAL, VIVE, ZONA |NO
+|155 |Relación de puestos |Obtener una lista con todos los empleados indicando qué puesto de trabajo desempeña cada uno |EMPLEADO, ADMINISTRADOR, VETERINARIO, CAJERO, CUIDADOR, MANTENIMIENTO |NO
+|156 |Animales siguiendo dieta determinada |Ver qué animales están siguiendo un tipo de dieta determinado (rica en fibra, proteínas...) |TIPO, ALIMENTA, ANIMAL | NO
+|157 |Animal más longevo por especie |Ver quién es el animal más longevo de una especie (no es del todo fiable porque puede haber animales con la fecha de nacimiento desocnocida) |ANIMAL |NO
+| 158|Animal más joven por especie |Ver quién es el animal más joven de una especie (no es del todo fiable porque puede haber animales con la fecha de nacimiento desocnocida) |ANIMAL |NO
+|159 |Animal más antiguo por especie   |Ver quién es el animal de una determinada especie que lleva viviendo más tiempo en el zoo |ANIMAL |NO
+|160 |Animal más nuevo por especie   |Ver quién es el animal de una determinada especie que lleva viviendo menos tiempo en el zoo |ANIMAL |NO
+|161 |Animal más longevo por zona |Ver quién es el animal más longevo de una zona (no es del todo fiable porque puede haber animales con la fecha de nacimiento desocnocida) |ANIMAL,VIVE |NO
+| 162|Animal más joven por zona |Ver quién es el animal más joven de una zona (no es del todo fiable porque puede haber animales con la fecha de nacimiento desocnocida) |ANIMAL,VIVE |NO
+|163 |Animal más antiguo por zona   |Ver quién es el animal de una determinada zona que lleva viviendo más tiempo en el zoo |ANIMAL,VIVE |NO
+|164 |Animal más nuevo por zona   |Ver quién es el animal de una determinada zona que lleva viviendo menos tiempo en el zoo |ANIMAL,VIE |NO
+|165 | Numero veterinarios subordinados |Contar cuántos veterinarios están a cargo de cada administrador |EMPLEADO, VETERINARIO | NO
+|166 | Numero cuidadores subordinados |Contar cuántos cuidadores están a cargo de cada administrador |EMPLEADO, VETERINARIO | NO
+|167 | Numero cajeros subordinados |Contar cuántos cajeros están a cargo de cada administrador |EMPLEADO, VETERINARIO | NO
+|168 | Numero mantenimiento subordinados |Contar cuántos empleados de mantenimiento están a cargo de cada administrador |EMPLEADO, VETERINARIO | NO
+|169 |Animales más nuevos por zona |Buscar qué animales de la misma zona son más nuevos que un animal determinado | ANIMAL, VIVE |NO
+|170 |Animales más antiguo por zona |Buscar qué animales de la misma zona son más antiguos que un animal determinado | ANIMAL, VIVE |NO
+|171 |Animales más nuevos por especie |Buscar qué animales de la misma especie son más nuevos que un animal determinado | ANIMAL |NO
+|172 |Animales más antiguos por especie |Buscar qué animales de la misma zona son más nuevos que un animal determinado | ANIMAL |NO
+| 173|Animales posteriores a especie |Animales que han ingresado al zoo más tarde que el último animal ingresado de una determinada especie |ANIMAL |NO
 | | | | |
+| | | | |
+| | | | |
+| | | | |
+| | | | |
+| | | | |
+| | | | |
+| | | | |
+| | | | |
+| | | | |
+| | | | |
+| | | | |
+| | | | |
+| | | | |
+| | | | |
+| | | | |
+| | | | |
+| | | | |
+| | | | |
+| | | | |
+| | | | |
+| | | | |
+| | | | |
+| | | | |
+| | | | |
+| | | | |
+
+|=== | |
 | | | | |
 | | | | |
 | | | | |
