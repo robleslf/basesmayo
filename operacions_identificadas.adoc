@@ -154,7 +154,7 @@
 |145 | Especie más ingresos |Obtener qué especie ha tenido más ingresos en el zoológico en el último año| ANIMAL |  NO
 |146 |Animales trasladados recientemente |Ver qué animales han sufrido un traslado de zona en el último mes | ANIMAL, VIVE | NO
 |    147   |   Tiempo manteniendo zona             |Calcular la cantidad de tiempo que un empleado de mantenimiento ha estado encargado de una zona determinada             | EMPLEADO, ZONA                  |    NO 
-| | | | |
+|148 |Animales misma especie en zonas de mismo tipo |Buscar cuántos ejemplares de una misma especie viven en zonas del mismo tipo; por ejemplo, ver cuántos gorilas están viviendo en zonas de jungla, aunque sean dos zonas diferentes | ANIMAL, VIVE, ZONA| NO
 | | | | |
 | | | | |
 | | | | |
