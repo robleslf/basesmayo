@@ -162,7 +162,7 @@
 | 153|Empleados contacto animal |Obtener una lista con todos los empleados que han tenido contacto con un animal determinado indicando el tipo o tipos de relaciones que han tenido con ellos, junto con un teléfono de contacto (en caso de tener más de un teléfono, seleccionar el más pequeño)|EMPLEADO, ALIMENTA, CUIDA, VACUNA, ANIMAL | NO
 |154 |Compañeros de animal |Ver quiénes son los compañeros que conviven con un animal determinado |ANIMAL, VIVE, ZONA |NO
 |155 |Relación de puestos |Obtener una lista con todos los empleados indicando qué puesto de trabajo desempeña cada uno |EMPLEADO, ADMINISTRADOR, VETERINARIO, CAJERO, CUIDADOR, MANTENIMIENTO |NO
-| | | | |
+|156 |Animales siguiendo dieta determinada |Ver qué animales están siguiendo un tipo de dieta determinado (rica en fibra, proteínas...) |TIPO, ALIMENTA, ANIMAL | NO
 | | | | |
 | | | | |
 | | | | |
