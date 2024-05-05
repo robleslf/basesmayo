@@ -289,14 +289,19 @@ AND an.especie LIKE 'Canis lupus signatus'
 AND tr.fecha_fin > CURRENT_DATE();
 
 
--- Qué empleados han tenido contacto con Copito de Nieve
+-- 8) Operación 153: Obtener una lista con todos los empleados que han tenido contacto con un animal determinado indicando el tipo o tipos de relaciones que han tenido con ellos, junto con un teléfono de contacto (en caso de tener más de un teléfono, seleccionar el más pequeño)
+
+-- En el ejemplo vamos a buscar qué empleados han tenido contacto con Copito de Nieve, el gorila
+
 -- SELECT * FROM VACUNA;
 -- SELECT * FROM CUIDA;
 -- SELECT * FROM ALIMENTA;
 -- SELECT * FROM EMPLEADO;
+-- SELECT * FROM TELEFONO_EMPLEADO;
 
 ((SELECT em.codigo_empleado AS 'Código empleado',
         CONCAT(em.nombre, " ", em.apellido_1, " ",IFNULL(em.apellido_2,"")) AS 'Nombre empleado',
+        (SELECT MIN(tefe.telefono) FROM TELEFONO_EMPLEADO AS tefe WHERE tefe.codigo_empleado = em.codigo_empleado) AS 'Teléfono de contacto',
         'Le vacunó' AS 'Tipo de relación'
 FROM ANIMAL AS an
 JOIN VACUNA AS va ON (an.codigo_animal = va.codigo_animal)
@@ -306,7 +311,8 @@ AND an.especie LIKE 'Troglodytes gorilla')
 UNION
 (SELECT em.codigo_empleado,
         CONCAT(em.nombre, " ", em.apellido_1, " ",IFNULL(em.apellido_2,"")),
-        CONCAT('Le cuidó (',cu.tipo_cuidado,') el día ', DATE_FORMAT(cu.fecha, '%d de %M de %Y a las %H:%i:%s'))
+        (SELECT MIN(tefe.telefono) FROM TELEFONO_EMPLEADO AS tefe WHERE tefe.codigo_empleado = em.codigo_empleado) AS 'Teléfono de contacto',
+        CONCAT('Le trató (',cu.tipo_cuidado,') el día ', DATE_FORMAT(cu.fecha, '%d de %M de %Y a las %H:%i:%s'))
 FROM ANIMAL AS an
 JOIN CUIDA AS cu ON (an.codigo_animal = cu.codigo_animal)
 JOIN EMPLEADO AS em ON (cu.codigo_empleado_cuidador = em.codigo_empleado)
@@ -315,13 +321,16 @@ AND an.especie LIKE 'Troglodytes gorilla')
 UNION
 (SELECT em.codigo_empleado,
         CONCAT(em.nombre, " ", em.apellido_1, " ",IFNULL(em.apellido_2,"")),
+        (SELECT MIN(tefe.telefono) FROM TELEFONO_EMPLEADO AS tefe WHERE tefe.codigo_empleado = em.codigo_empleado) AS 'Teléfono de contacto',
         CONCAT('Le dio de comer el día ', DATE_FORMAT(al.fecha, '%d de %M de %Y a las %H:%i:%s'))
 FROM ANIMAL AS an
 JOIN ALIMENTA AS al ON (an.codigo_animal = al.codigo_animal)
 JOIN EMPLEADO AS em ON (al.codigo_empleado_cuidador = em.codigo_empleado)
 WHERE an.nombre LIKE 'Copito de Nieve'
 AND an.especie LIKE 'Troglodytes gorilla'))
-ORDER BY 2;
+ORDER BY 2 DESC;
+
+
 
                             
                             
