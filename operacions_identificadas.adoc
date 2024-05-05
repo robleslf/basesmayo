@@ -109,7 +109,7 @@
 |   101     |Datos de formadores/formados (cuidador)         |Buscar datos personales de los cuidadores formadores y el nombre de los cuidadores formados por cada uno              |EMPLEADO, FORMA_CUIDADOR, TELEFONO_EMPLEADO                  |NO      
 |   102     | ¿Veterinario en formación?                |Buscar si un veterinario está aún formándose o no en función de su fecha de finalización de formación             |FORMA_VETERINARIO, EMPLEADO                  |   NO   
 |   103     | Cuidador en formación?                |Buscar si un cuidador está aún formándose o no en función de su fecha de finalización de formación             |FORMA_CUIDADOR, EMPLEADO                  |   NO    
-|    104    |   Tiempo manteniendo zona             |Calcular la cantidad de tiempo que un empleado de mantenimiento ha estado encargado de una zona determinada             | EMPLEADO, ZONA                  |    NO  
+|    104    |  Veterinarios en formación 2           |Listar todos los veterinarios del zoo con un campo que indique si están en formación o no, y en caso de que no, cuándo la finalizaron             | EMPLEADO, ZONA                  |    NO  
 |    105    |Filtrar por gravedad                |Buscar las enfermedades calificadas como graves/leves            |    AFECCIÓN              |      NO
 |    106    |Filtrar por tipo                |Buscar qué afecciones pertenecen a un determinado tipo             |AFECCIÓN                  |NO      
 |107        |Animales graves                |Buscar qué animales padecen una afección grave y requieren cuidados inmediatos (habrá que filtrar por fecha para comprobar si el animal ya superó la afección)            |      ANIMAL, TRATAMIENTO            |NO      
@@ -153,6 +153,7 @@
 |144 | Cantidad de comida por animal | Mostrar la cantidad total de comida que se le ha dado a un animal en un determinado día  | ANIMAL, DIETA, ALIMENTA|NO
 |145 | Especie más ingresos |Obtener qué especie ha tenido más ingresos en el zoológico en el último año| ANIMAL |  NO
 |146 |Animales trasladados recientemente |Ver qué animales han sufrido un traslado de zona en el último mes | ANIMAL, VIVE | NO
+|    147   |   Tiempo manteniendo zona             |Calcular la cantidad de tiempo que un empleado de mantenimiento ha estado encargado de una zona determinada             | EMPLEADO, ZONA                  |    NO 
 | | | | |
 | | | | |
 | | | | |
