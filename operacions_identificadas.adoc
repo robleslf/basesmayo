@@ -157,8 +157,8 @@
 |148 |Animales misma especie en zonas de mismo tipo |Buscar cuántos ejemplares de una misma especie viven ACTUALMENTE en zonas del mismo tipo; por ejemplo, ver cuántos gorilas están viviendo en zonas de jungla, aunque sean dos zonas diferentes | ANIMAL, VIVE, ZONA| NO
 |149 |Zonas con varias epescies |Obtener las zonas en las que están conviviendo actualmente animales de especies diferentes | ANIMAL, ZONA, VIVE |NO
 | 150|Trasladar animal |Se modifica la fecha de salida en su zona actual y se añade su nuevo registro en la tabla VIVE |VIVE |SÍ
-| | | | |
-| | | | |
+|151 |Tratamientos animal |Buscar los tratamientos que está siguiendo actualmente un animal | ANIMAL, TRATAMIENTO|NO
+| 152|Historial de tratamientos |Buscar los tratamientos que ha seguido o está siguiendo un animal |ANIMAL, TRATAMIENTO |NO
 | | | | |
 | | | | |
 | | | | |
