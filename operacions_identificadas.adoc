@@ -184,31 +184,8 @@
 |175 |Animal por especie más antiguo en cada zona |Ver quién es el animal de una determinada especie que lleva viviendo más tiempo en cada zona del zoo |ANIMAL, VIVE |NO
 |176 |Animal por especie más nuevo en cada zona |Ver quién es el animal de una determinada especie que lleva viviendo menos tiempo en cada zona del zoo |ANIMAL, VIVE |NO
 |177 |Cantidad alimento por día | Ver cuánta cantidad de alimento se ha gastado cada día |ALIMENTO, ALIMENTA, COMPONE |NO
-| | | | |
-| | | | |
-| | | | |
-| | | | |
-| | | | |
-| | | | |
-| | | | |
-| | | | |
-| | | | |
-| | | | |
-| | | | |
-| | | | |
-| | | | |
-| | | | |
-| | | | |
-| | | | |
-| | | | |
-| | | | |
-| | | | |
-| | | | |
-| | | | |
-| | | | |
-| | | | |
-| | | | |
-
-
-
+| 178|Campaña de vacunación |Vacunar a varios animales que cumplan unas condiciones determinadas, como por ejemplo, haber llegado al zoo después de un animal determinado |ANIMAL, VACUNA |SÍ
+|179  |Eliminar dietas por alimento |Eliminar todas las dietas que lleven un alimento determinado que se quiera retirar |ALIMENTO, COMPONE, ALIMENTA |SÍ
+| 180|Modificar dieta insuficiente cantidad |Modificar la cantidad de un alimento en las dietas en las que se considere insufuciente o demasiada la cantidad de dicho alimento |COMPONE,ALIMENTO |NO
+|181 |Borrar alimentos innecesarios |Borrar los alimentos que no están presentes en nninguna dieta |COMPONE, ALIMENTO |NO
 |===
