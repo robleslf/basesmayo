@@ -191,4 +191,5 @@
 |182 |Miembro en la primera visita |Hacer miembro a un cliente que visita el zoológico por primera vez, y es por tanto registrado como cliente en CLIENTE, su entrada en ENTRADA,  y se le abre un registro en la tabla MEMBRESIA |MEMBRESIA, CLIENTE, ENTRADA |SÍ
 |  183     |Entrada cliente habitual                |Añadir una nueva entrada        | ENTRADA                  |NO
 |  184     |Entrada cliente miembro                |Añadir una nueva entrada aplicando el porcentaje de la membresia en el precio        | ENTRADA                  |NO
+|  185     |Eliminar clientes antigüos                |Eliminar aquellos clientes que comprasen su última entrada hace más de 10,15, 20...años y no sean miembros del zoo, sin eliminar el registro de las entradas que compraron, por lo que habrá que modificar el valor de codigo_cliente a NULL antes de eliminar de la tabla CLIENTE el registro del cliente     | ENTRADA, CLIENTE, MEMBRESÍA                  |SÍ
 |===
