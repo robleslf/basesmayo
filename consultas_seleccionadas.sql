@@ -166,7 +166,7 @@ VALUES
 
 COMMIT;
 
--- Y ahora la zona 6 aparece entre las zonas en las que conviven actualmente animales de especies diferentes
+-- Y ahora la zona 6 aparece entre las zonas en las que conviven actualmente animales de especies diferentes (Si se ingresaron los dos pandas rojos del ejercicio anterior, también saldrán las zonas de jungla como zonas con al menos dos especies diferentes).
 SELECT  zo.codigo_zona AS 'Código zona',
 		zo.tipo AS 'Tipo de zona',
 		COUNT(DISTINCT an.especie) AS 'Nº de especies diferentes conviviendo'
@@ -649,6 +649,9 @@ WHERE cod_alimento = (SELECT * FROM (SELECT cod_alimento
 						FROM ALIMENTO
 						WHERE nombre LIKE 'Termitas') T);
                         
+                        
+COMMIT;
+                        
 /* 
 Se podría hacer así el borrado de termitas en ALIMENTO, pero entonces hay que desactivar el modo seguro en preferencias:
 
@@ -656,7 +659,7 @@ DELETE FROM ALIMENTO
 WHERE nombre LIKE 'Termitas';
 */
                                                 
-COMMIT;
+
 
 
 -- 17) Operación 180 → Modificar dieta insuficiente cantidad
@@ -700,7 +703,7 @@ WHERE NOT EXISTS (SELECT cod_alimento
                     
 				
                 
--- 19) Eliminar los clientes cuya última compra fue hace más de 10 años y no tienen membresía
+-- 19)Operación 185 → Eliminar los clientes cuya última compra fue hace más de 10 años y no tienen membresía
 -- SELECT * FROM ENTRADA;
 -- SELECT * FROM MEMBRESIA;
 -- SELECT * FROM CLIENTE;
@@ -759,6 +762,11 @@ COMMIT;
 
 START TRANSACTION;
 
+SET @clientes_a_eliminar := (SELECT DISTINCT codigo_cliente
+						FROM ENTRADA
+                        WHERE fecha_compra < DATE_SUB(CURRENT_DATE, INTERVAL 10 YEAR)
+                        AND codigo_cliente NOT IN (SELECT cod_cliente
+						FROM MEMBRESIA));
 
 UPDATE ENTRADA
 SET codigo_cliente = NULL
@@ -768,6 +776,13 @@ WHERE n_entrada IN (SELECT * FROM (SELECT n_entrada
 AND codigo_cliente NOT IN (SELECT cod_cliente
 						FROM MEMBRESIA);
                         
+                        
+
+DELETE FROM CLIENTE
+WHERE cod_cliente IN (@clientes_a_eliminar);
+                        
+COMMIT;
+                      
 /* 
 Se puede actualizar la tabla ENTRADA de una forma más simple, pero hay que desactivar el modo seguro en preferencias:
 
@@ -777,16 +792,6 @@ WHERE fecha_compra < DATE_SUB(CURRENT_DATE, INTERVAL 10 YEAR)
 AND codigo_cliente NOT IN (SELECT cod_cliente
 						FROM MEMBRESIA);
 */
-                        
-                        
 
-DELETE FROM CLIENTE
-WHERE cod_cliente IN (SELECT codigo_cliente
-					  FROM ENTRADA
-                      WHERE fecha_compra < DATE_SUB(CURRENT_DATE, INTERVAL 10 YEAR))
-AND cod_cliente NOT IN (SELECT cod_cliente
-						FROM MEMBRESIA);
-                        
-COMMIT;
-                      
+
 
