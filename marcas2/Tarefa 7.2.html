@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>UD 7. Tarefa 7.2</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    </head>
+    <body>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Apelidos</th>
+                    <th scope="col">Teléfono</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>Xurxo</td>
+                    <td>Pereira</td>
+                    <td>666555444</td>
+                </tr>
+                <tr>
+                    <th scope="row">2</th>
+                    <td>Xoán</td>
+                    <td>Loureiro</td>
+                    <td>600111222</td>
+                </tr>
+                <tr>
+                    <th scope="row">3</th>
+                    <td colspan="2">Breogán</td>
+                    <td>7777</td>
+                </tr>
+            </tbody>
+        </table>
+        <script>
+            //Cambia a cor de fondo do body
+            document.getElementsByTagName("body")[0].style.backgroundColor = "cornflowerblue";
+
+            // Engade as clases table-dark e table-hover á táboa
+            document.getElementsByTagName("table")[0].classList.add("table-dark", "table-hover");
+
+            // Cambia o estilo ás table heads
+            let headsTables = document.getElementsByTagName("th");
+
+            for (let i = 0; i < headsTables.length; i++) {
+                if (headsTables[i].getAttribute("scope") === "row") {
+                    headsTables[i].style.color = "saddlebrown";
+                    headsTables[i].style.backgroundColor = "skyblue";
+                }
+
+                else {
+                    if (i==0){
+                        headsTables[i].style.backgroundColor = "white";
+                        headsTables[i].style.color = "black";
+                    }
+                    
+                    else {
+                        headsTables[i].style.backgroundColor = "wheat";
+                        headsTables[i].style.color = "steelblue";
+                    }
+                }
+            }
+         
+            // Cambia o nome Breogán por Maruxa
+            
+
+
+        </script>        
+    </body>
+</html>
